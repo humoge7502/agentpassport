@@ -131,7 +131,7 @@ export function AgentPassportPage() {
                 : "border-transparent text-(--color-ink-faint) hover:text-(--color-ink-dim)"
             }`}
           >
-            {t === "passport" ? "Passport" : t === "reputation" ? "Reputation" : t}
+            {t === "passport" ? "Passport" : t === "reputation" ? "Reputation" : t === "evidence" ? "Evidence" : "Epochs"}
           </button>
         ))}
       </div>

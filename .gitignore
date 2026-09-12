@@ -10,6 +10,8 @@ node_modules/
 dist/
 .pytest_cache/
 .ruff_cache/
-coverage/
+.coverage
 htmlcov/
 .DS_Store
+.review/
+.run-*.log
