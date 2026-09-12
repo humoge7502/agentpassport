@@ -22,18 +22,19 @@ def _add_evidence(client, admin_headers, agent_id, event_type, capability, n=1, 
 
 
 def _add_diverse_evidence(client, admin_headers, agent_id, capability,
-                          successes=20, fails=0):
+                          successes=30, fails=0):
     """Realistic evidence mix: platform-observed events from distinct observers
-    (issuer/tier diversity). True counterparty-signature verification is
-    exercised at the service level in test_evidence_service.py."""
+    plus audit-class records (issuer/tier diversity). True counterparty-signature
+    behavior — including the unregistered-key downgrade and revoked-key
+    rejection — is exercised at the service level in test_evidence_service.py."""
     mix = [("task_completed", "platform_verified", f"observer-{i % 4}")
            for i in range(successes)]
     mix += [("task_failed", "platform_verified", f"observer-{i % 4}")
             for i in range(fails)]
     mix += [("sla_met", "independent_audit", "audit-bot-1"),
             ("audit_passed", "independent_audit", "external-auditor"),
-            ("task_completed", "counterparty_signed", "counterparty-1"),
-            ("task_completed", "counterparty_signed", "counterparty-2")]
+            ("task_completed", "independent_audit", "audit-bot-2"),
+            ("task_completed", "independent_audit", "external-auditor")]
     for i, (etype, tier, issuer) in enumerate(mix):
         r = client.post("/api/v1/evidence", json={
             "agent_id": agent_id, "event_type": etype, "capability": capability,
@@ -62,7 +63,7 @@ def test_full_trust_lifecycle(client, admin_headers):
 
     # 3. build evidence → reputation rises → ALLOW
     _add_diverse_evidence(client, admin_headers, agent_id, "translation",
-                          successes=25)
+                          successes=30)
     r = client.get(f"/api/v1/agents/{agent_id}/reputation?capability=translation")
     rep = r.json()["reputation"]
     assert rep["dimensions"]["reliability"]["score"] is not None

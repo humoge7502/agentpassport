@@ -37,9 +37,18 @@ class ReputationService:
         capabilities: list[str] | None = None,
     ) -> dict[str, dict]:
         """Compute all capability-conditioned vectors; returns {cap: vec_dict}."""
+        return {
+            cap: vec.to_dict()
+            for cap, vec in self.for_agent_vectors(db, agent_id, capabilities).items()
+        }
+
+    def for_agent_vectors(
+        self, db: Session, agent_id: str,
+        capabilities: list[str] | None = None,
+    ) -> dict:
+        """Raw ReputationVector objects (for pooled overall() in decisions)."""
         ev_dicts = self.evidence.for_reputation(db, agent_id)
-        vecs = compute_all_capabilities(self.cfg, agent_id, capabilities or [], ev_dicts)
-        return {cap: vec.to_dict() for cap, vec in vecs.items()}
+        return compute_all_capabilities(self.cfg, agent_id, capabilities or [], ev_dicts)
 
     def snapshot(self, db: Session, agent_id: str) -> list[ReputationSnapshot]:
         vectors = self.for_agent(db, agent_id)
@@ -99,33 +108,32 @@ class TrustDecisionService:
         return out
 
     def reputation_view(self, db: Session, agent: Agent, capability: str) -> dict:
-        """Reputation inputs the policy engine sees for this exact request."""
-        vectors = self.reputation.for_agent(db, agent.agent_id, [])
+        """Reputation inputs the policy engine sees for this exact request.
+
+        Overall aggregates use the domain's pooled confidence (total evidence
+        mass + diversity), matching what the UI displays.
+        """
+        vectors = self.reputation.for_agent_vectors(db, agent.agent_id, [])
         # prefer exact capability, fall back to declared capability family, then _global
         vec = vectors.get(capability) or vectors.get("_global")
-        overall = None
-        if vec:
-            o = vec["dimensions"]
-            # overall aggregate from vector dict
-            scores = [(d, s) for d, s in o.items() if s.get("score") is not None]
-            if scores:
-                mass = sum(s["n_eff"] for _, s in scores) or 1e-9
-                agg_score = sum(s["score"] * s["n_eff"] for _, s in scores) / mass
-                agg_conf = min(s["confidence"] for _, s in scores)
-            else:
-                agg_score, agg_conf = None, 0.0
+        overall: dict = {"score": None, "confidence": 0.0,
+                         "security_score": None, "evidence_count": 0}
+        if vec is not None:
+            o = vec.overall()
             overall = {
-                "score": agg_score, "confidence": agg_conf,
-                "security_score": (o.get("security") or {}).get("score"),
-                "evidence_count": sum(s.get("evidence_count", 0) for s in o.values()),
+                "score": o.score, "confidence": o.confidence,
+                "security_score": (
+                    vec.dimensions.get("security").score
+                    if vec.dimensions.get("security") else None
+                ),
+                "evidence_count": o.evidence_count,
             }
         epoch = db.execute(
             select(TrustEpoch).where(TrustEpoch.agent_id == agent.agent_id)
             .order_by(TrustEpoch.epoch_number.desc()).limit(1)
         ).scalars().first()
         return {
-            **(overall or {"score": None, "confidence": 0.0, "security_score": None,
-                           "evidence_count": 0}),
+            **overall,
             "epoch_flags": (epoch.flags if epoch else {}) or {},
             "epoch_number": epoch.epoch_number if epoch else None,
         }

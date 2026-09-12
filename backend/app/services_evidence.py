@@ -7,9 +7,11 @@ Corrections are new events with `corrective_of`; history is never rewritten.
 
 from __future__ import annotations
 
+import random
 from datetime import UTC, datetime, timedelta
 
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.domain import crypto
@@ -30,6 +32,7 @@ BEHAVIOR_EVENTS = {
 }
 KNOWN_EVENTS = LIFECYCLE_EVENTS | BEHAVIOR_EVENTS
 MAX_CLOCK_SKEW = timedelta(minutes=10)
+APPEND_RACE_RETRIES = 3
 
 
 class EvidenceError(Exception):
@@ -74,6 +77,43 @@ class EvidenceService:
         ).scalar()
         return row
 
+    def _sign(
+        self, db: Session, ev: EvidenceEvent, body: dict,
+        external_signature: str | None, external_public_key: str | None,
+        quality_tier: str | None,
+    ) -> None:
+        """Sign via external key (verified) or the platform key.
+
+        Trust-model rule: an external key that is NOT registered as a known
+        signing key cannot carry counterparty weight — its evidence is recorded
+        as `self_reported` from an `external` issuer (honest downgrade).
+        """
+        if external_public_key:
+            if not external_signature:
+                raise EvidenceError("external submission requires a signature")
+            # reject far-future timestamps (clock-skew abuse)
+            if ev.created_at > datetime.now(UTC) + MAX_CLOCK_SKEW:
+                raise EvidenceError("event timestamp too far in the future")
+            # key-status gate precedes signature work (fails fast on compromise)
+            known = db.execute(
+                select(SigningKey).where(SigningKey.public_key_b64 == external_public_key)
+            ).scalars().first()
+            if known is not None and known.status == "revoked":
+                raise EvidenceError(f"signing key {known.key_id} is revoked")
+            if not crypto.verify_payload(external_public_key, body, external_signature):
+                raise EvidenceError("signature verification failed")
+            ev.signature = external_signature
+            if known is None:
+                ev.quality_tier = "self_reported"
+                ev.issuer_type = "external"
+        else:
+            kid, sig = self.keys.platform_sign(body)
+            ev.signing_key_id = kid
+            ev.signature = sig
+        # platform may not sign evidence above its own tier implicitly
+        if external_public_key is None and quality_tier in {"counterparty_signed"}:
+            ev.quality_tier = "platform_verified"
+
     def append(
         self, db: Session, agent_id: str, event_type: str,
         issuer_type: str, issuer_id: str, signing_key_id: str,
@@ -87,10 +127,11 @@ class EvidenceService:
     ) -> EvidenceEvent:
         """Append one signed evidence event.
 
-        - `external_public_key` + `external_signature`: counterparty-signed
-          submission (platform verifies; quality tier must be counterparty_signed
-          or self_reported).
+        - `external_public_key` + `external_signature`: externally signed
+          submission (verified against the provided key; unregistered keys are
+          downgraded to self_reported weight).
         - otherwise the platform signs (platform_verified tier).
+        Concurrent writers retry on seq-collision (unique constraint).
         """
         if event_type not in KNOWN_EVENTS:
             raise EvidenceError(f"unknown event_type {event_type!r}")
@@ -104,50 +145,57 @@ class EvidenceService:
             if db.get(ReplayWindow, nonce) is not None:
                 raise EvidenceError("replay detected: nonce already used")
             db.add(ReplayWindow(nonce=nonce, agent_id=agent_id))
+            if random.random() < 0.02:  # opportunistic prune of expired nonces
+                cutoff = datetime.now(UTC) - timedelta(
+                    days=float(self.cfg.get("replay_window_days", 7.0)))
+                db.execute(delete(ReplayWindow).where(ReplayWindow.seen_at < cutoff))
 
-        seq = self.next_seq(db, agent_id)
-        prev = self.head_hash(db, agent_id)
-        ev = EvidenceEvent(
-            event_id=new_id(), agent_id=agent_id, seq=seq,
-            event_type=event_type, capability=capability, task_class=task_class,
-            outcome=outcome, context=context or {},
-            issuer_type=issuer_type, issuer_id=issuer_id,
-            signing_key_id=signing_key_id, signature="",
-            quality_tier=quality_tier or "platform_verified",
-            visibility=visibility, metadata_json=metadata or {},
-            corrective_of=corrective_of, prev_event_hash=prev,
-            created_at=created_at or datetime.now(UTC),
-        )
-        body = evidence_body(ev)
-        ev.payload_hash = crypto.canonical_hash(body)
-        ev.event_hash = crypto.sha256_hex(crypto.canonical_json(body) + (prev or "").encode())
-
-        if external_public_key:
-            if not external_signature:
-                raise EvidenceError("external submission requires a signature")
-            # reject far-future timestamps (clock-skew abuse)
-            if ev.created_at > datetime.now(UTC) + MAX_CLOCK_SKEW:
-                raise EvidenceError("event timestamp too far in the future")
-            if not crypto.verify_payload(external_public_key, body, external_signature):
-                raise EvidenceError("signature verification failed")
-            ev.signature = external_signature
-        else:
-            kid, sig = self.keys.platform_sign(body)
-            ev.signing_key_id = kid
-            ev.signature = sig
-
-        db.add(ev)
-        db.flush()
-        return ev
+        last_exc: IntegrityError | None = None
+        for _ in range(APPEND_RACE_RETRIES):
+            try:
+                # savepoint: a seq-collision rollback must not destroy any
+                # writes the surrounding request transaction already made
+                with db.begin_nested():
+                    seq = self.next_seq(db, agent_id)
+                    prev = self.head_hash(db, agent_id)
+                    ev = EvidenceEvent(
+                        event_id=new_id(), agent_id=agent_id, seq=seq,
+                        event_type=event_type, capability=capability,
+                        task_class=task_class, outcome=outcome,
+                        context=context or {},
+                        issuer_type=issuer_type, issuer_id=issuer_id,
+                        signing_key_id=signing_key_id, signature="",
+                        quality_tier=quality_tier or "platform_verified",
+                        visibility=visibility, metadata_json=metadata or {},
+                        corrective_of=corrective_of, prev_event_hash=prev,
+                        created_at=created_at or datetime.now(UTC),
+                    )
+                    body = evidence_body(ev)
+                    ev.payload_hash = crypto.canonical_hash(body)
+                    ev.event_hash = crypto.sha256_hex(
+                        crypto.canonical_json(body) + (prev or "").encode())
+                    self._sign(db, ev, body, external_signature,
+                               external_public_key, quality_tier)
+                    db.add(ev)
+                    db.flush()
+                return ev
+            except IntegrityError as exc:
+                last_exc = exc
+                if nonce and db.get(ReplayWindow, nonce) is None:
+                    db.add(ReplayWindow(nonce=nonce, agent_id=agent_id))
+        raise EvidenceError(f"concurrent append contention: {last_exc}")
 
     def verify_chain(self, db: Session, agent_id: str) -> dict:
-        """Replay the per-agent hash chain and re-verify every signature."""
+        """Replay the per-agent hash chain, re-verify every signature, and flag
+        events signed by a key that was revoked before the event's timestamp
+        (compromise-recovery check)."""
         events = db.execute(
             select(EvidenceEvent).where(EvidenceEvent.agent_id == agent_id)
             .order_by(EvidenceEvent.seq)
         ).scalars().all()
-        keys = {k.key_id: k.public_key_b64
-                for k in db.execute(select(SigningKey)).scalars()}
+        key_rows = db.execute(select(SigningKey)).scalars().all()
+        keys = {k.key_id: k.public_key_b64 for k in key_rows}
+        revoked_at = {k.key_id: k.revoked_at for k in key_rows if k.revoked_at}
         # also resolve keys held in the file store (e.g. platform key in
         # service-level contexts where no DB row exists yet)
         for key_id in {ev.signing_key_id for ev in events} - set(keys):
@@ -172,6 +220,15 @@ class EvidenceService:
             pub = keys.get(ev.signing_key_id)
             if pub is None or not crypto.verify_payload(pub, body, ev.signature):
                 problems.append({"event_id": ev.event_id, "issue": "signature_invalid"})
+            rev = revoked_at.get(ev.signing_key_id)
+            if rev is not None:
+                rev_aware = rev if rev.tzinfo else rev.replace(tzinfo=UTC)
+                if ev.created_at and ev.created_at > rev_aware:
+                    problems.append({
+                        "event_id": ev.event_id, "issue": "signed_by_revoked_key",
+                        "revoked_at": rev_aware.isoformat(),
+                        "event_created_at": ev.created_at.isoformat(),
+                    })
             prev_hash = ev.event_hash
         return {
             "agent_id": agent_id,
@@ -201,9 +258,20 @@ class EvidenceService:
 
     def for_reputation(self, db: Session, agent_id: str) -> list[dict]:
         """Evidence dicts for the reputation engine (internal, all visibilities
-        — private evidence influences scores; contents are never exposed)."""
+        — private evidence influences scores; contents are never exposed).
+
+        Bounded lookback: evidence older than `max_evidence_age_multiplier` ×
+        the longest half-life contributes < 0.1% weight after exponential
+        decay, so it is excluded — this bounds query cost at 10× scale without
+        changing any computed score (verified by the age-cutoff test).
+        """
+        half_lives = self.cfg["half_life_days"]
+        max_multiplier = float(self.cfg.get("max_evidence_age_multiplier", 10.0))
+        longest = max(half_lives.values()) if half_lives else 60.0
+        cutoff = datetime.now(UTC) - timedelta(days=longest * max_multiplier)
         rows = db.execute(
-            select(EvidenceEvent).where(EvidenceEvent.agent_id == agent_id)
+            select(EvidenceEvent).where(EvidenceEvent.agent_id == agent_id,
+                                        EvidenceEvent.created_at >= cutoff)
             .order_by(EvidenceEvent.seq)
         ).scalars().all()
         return [

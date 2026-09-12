@@ -19,21 +19,19 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from app.domain import crypto
 from app.services import build_services
 
 
 def _evidence_stream(svc, db, agent_id, capability, *, days_span=60, successes=28,
                      fails=2, prefix="seed"):
-    """Platform-observed + counterparty + audit evidence over simulated time."""
+    """Platform-observed + audit evidence over simulated time (honest tiers)."""
     now = __import__("datetime").datetime.now(__import__("datetime").timezone.utc)
     import datetime as dt
 
-    {c: crypto.KeyPair.generate() for c in range(2)}
     plan: list[tuple[str, str, str, int]] = []
     for i in range(successes):
-        tier = ("platform_verified", "counterparty_signed", "independent_audit")[i % 3]
-        issuer = ("platform", f"counterparty-{i % 2}", "external-auditor")[i % 3]
+        tier = ("platform_verified", "platform_verified", "independent_audit")[i % 3]
+        issuer = ("platform", f"observer-{i % 3}", "external-auditor")[i % 3]
         plan.append(("task_completed", tier, issuer, i % max(1, days_span)))
     for i in range(fails):
         plan.append(("task_failed", "platform_verified", "platform", (i * 17) % max(1, days_span)))
@@ -126,8 +124,11 @@ def seed(fresh: bool = True) -> dict:
     _evidence_stream(svc, db, finance.agent_id, "financial_transaction", successes=22, fails=2)
     _evidence_stream(svc, db, research.agent_id, "research", successes=20, fails=2)
     _evidence_stream(svc, db, security.agent_id, "security_review", successes=24, fails=1)
-    # NegotiatorBot: modest history (the killer-demo subject before its model change)
-    _evidence_stream(svc, db, negotiator.agent_id, "vendor_negotiation", successes=22, fails=2)
+    # NegotiatorBot: established history (killer-demo subject) — enough
+    # effective evidence to clear the high-risk confidence floor (0.70) BEFORE
+    # its model change, so the before/after decision contrast is ALLOW → gated.
+    _evidence_stream(svc, db, negotiator.agent_id, "vendor_negotiation",
+                     successes=60, fails=2, days_span=30)
 
     # a policy violation on ProcureBot (shows up in Security Center, not fatal)
     svc.evidence.append(

@@ -7,3 +7,362 @@
 
   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
 [2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+[2m6:35:26 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/AgentPassportPage.tsx, /src/index.css[22m
+[2m12:36:11 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m12:36:12 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m1:53:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/evidence?visibility=org[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/epochs[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/reputation[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/passport[39m
+AggregateError [ETIMEDOUT]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/evidence?visibility=org[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/epochs[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/passport[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/reputation[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/delegations[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/audit[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/policies[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/trust/graph[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/security/incidents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/delegations[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/audit[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/policies[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/trust/graph[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/security/incidents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/audit[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/audit[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:53:33 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/passport[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/reputation[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/policies[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/evidence?visibility=org[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/epochs[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/audit[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/passport[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/reputation[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/trust/graph[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/policies[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/evidence?visibility=org[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/epochs[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/audit[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/audit[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/audit[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/delegations[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/trust/graph[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/delegations[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/security/incidents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/security/incidents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:03:32 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:48 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/passport[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:48 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/reputation[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:48 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/security/incidents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:48 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/evidence?visibility=org[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:48 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/policies[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:48 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/policies[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:48 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/security/incidents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:48 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/epochs[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:48 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/passport[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:48 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/reputation[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:48 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/evidence?visibility=org[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:48 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents/f51bb731564b415dab49062ef38e7124/epochs[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:49 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/delegations[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:49 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/delegations[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:49 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:49 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/audit[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:49 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/audit[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:49 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/audit[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:49 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:49 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/audit[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:49 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/trust/graph[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:49 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/trust/graph[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:49 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m2:04:49 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m7:40:02 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m7:40:02 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m7:40:02 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m7:40:03 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/delegations[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m7:40:03 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/security/incidents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m7:40:03 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m7:40:03 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/delegations[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m7:40:03 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/security/incidents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m9:22:59 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m9:22:59 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/security/incidents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m9:22:59 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/delegations[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m9:22:59 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m9:22:59 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/security/incidents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m9:22:59 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/delegations[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m9:22:59 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m9:22:59 pm[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/v1/agents[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+[2m1:57:13 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/AgentPassportPage.tsx, /src/index.css[22m
+[2m2:35:20 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/AgentPassportPage.tsx, /src/index.css[22m
+[2m2:35:20 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Demo.tsx, /src/index.css[22m
+[2m2:36:19 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Overview.tsx, /src/index.css[22m

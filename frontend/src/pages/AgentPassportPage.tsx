@@ -33,7 +33,7 @@ export function AgentPassportPage() {
     return (
       <div className="mx-auto max-w-6xl space-y-4">
         <Skeleton className="h-8 w-72" />
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <Skeleton className="h-64" /><Skeleton className="h-64" /><Skeleton className="h-64" />
         </div>
       </div>
@@ -137,7 +137,7 @@ export function AgentPassportPage() {
       </div>
 
       {tab === "passport" && (
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <Card>
             <CardHeader title="Identity" subtitle="platform-signed passport document" />
             <div className="px-4 py-2">
@@ -252,7 +252,12 @@ function OverallView({ reps }: { reps: Record<string, Reputation> }) {
           ? known.reduce((acc, d) => acc + (d.score ?? 0) * d.n_eff, 0) /
             (known.reduce((acc, d) => acc + d.n_eff, 0) || 1)
           : null;
-        const conf = known.length ? Math.min(...known.map((d) => d.confidence)) : 0;
+        // pooled confidence: n_eff-weighted mean, matching the backend's
+        // pooled overall() (total evidence mass + diversity), not the min
+        const totalEff = known.reduce((acc, d) => acc + d.n_eff, 0);
+        const conf = known.length && totalEff > 0
+          ? known.reduce((acc, d) => acc + d.confidence * d.n_eff, 0) / totalEff
+          : 0;
         return (
           <div key={cap} className={cap === "_global" ? "border-t border-(--color-line-soft) pt-3" : ""}>
             <div className="mb-1 flex items-center justify-between">
@@ -289,7 +294,7 @@ function ReputationTab({ reps, loading }: { reps: Record<string, Reputation>; lo
   const caps = Object.entries(reps);
   if (caps.length === 0) return <EmptyState title="No reputation computed" hint="Snapshot after submitting evidence." />;
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       {caps.map(([cap, rep]) => (
         <Card key={cap}>
           <CardHeader

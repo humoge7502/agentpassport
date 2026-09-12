@@ -24,9 +24,11 @@ def services(tmp_path: Path) -> Services:
 @pytest.fixture()
 def client(services: Services) -> TestClient:
     import app.services as services_module
+    from app.api_deps import rate_limiter
     from app.main import create_app
 
     services_module._services = services
+    rate_limiter.per_minute = 1_000_000  # the suite shares one in-memory limiter
     app = create_app()
     with TestClient(app) as c:
         yield c

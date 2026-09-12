@@ -112,6 +112,11 @@ def _default_config() -> dict:
         "security_floor": 40.0,          # security dimension below this → DENY
         "unknown_decision": "DENY",      # what UNKNOWN reputation yields under policy
         "human_approval_value_threshold": 100000.0,  # value above → HUMAN_APPROVAL
+        # --- operational bounds ----------------------------------------------
+        "replay_window_days": 7.0,       # nonce retention before pruning
+        # evidence older than (multiplier × longest half-life) contributes
+        # < 0.1% weight after exponential decay → excluded from computation
+        "max_evidence_age_multiplier": 10.0,
     }
 
 

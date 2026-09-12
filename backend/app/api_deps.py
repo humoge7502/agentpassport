@@ -18,6 +18,8 @@ _settings = get_settings()
 class RateLimiter:
     """Simple per-client fixed-window limiter. Redis-backed in production."""
 
+    MAX_TRACKED_CLIENTS = 10_000  # bound memory against unique-key floods
+
     def __init__(self, per_minute: int):
         self.per_minute = per_minute
         self._buckets: dict[str, tuple[int, float]] = {}
@@ -26,6 +28,13 @@ class RateLimiter:
     def check(self, key: str) -> bool:
         now = time.time()
         with self._lock:
+            if len(self._buckets) > self.MAX_TRACKED_CLIENTS:
+                # drop windows that expired — memory bound, not a rate decision
+                self._buckets = {
+                    k: v for k, v in self._buckets.items() if now - v[1] < 60.0
+                }
+                if len(self._buckets) > self.MAX_TRACKED_CLIENTS:
+                    self._buckets.clear()
             count, window_start = self._buckets.get(key, (0, now))
             if now - window_start >= 60.0:
                 count, window_start = 0, now

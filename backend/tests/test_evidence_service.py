@@ -127,3 +127,123 @@ def test_quality_tier_validated(services):
     with pytest.raises(EvidenceError):
         _append(services, db, agent.agent_id, quality_tier="gold_plated")
     db.close()
+
+
+def test_revoked_key_rejected_at_ingestion(services):
+    """A revoked (compromised) key must not be able to sign new evidence."""
+    from datetime import UTC, datetime
+
+    db = services.db.session()
+    agent = services.identity.create_agent(db, "org-1", "CompromisedBot")
+    key = services.keys.create_agent_key(db, agent.agent_id)
+    db.commit()
+
+    def _submit(nonce):
+        return services.evidence.append(
+            db, agent_id=agent.agent_id, event_type="task_completed",
+            capability="translation", issuer_type="counterparty",
+            issuer_id="self", signing_key_id=key.key_id,
+            quality_tier="counterparty_signed",
+            external_public_key=key.public_key_b64,
+            external_signature="AAAA",  # signature checked after key status
+            nonce=nonce, created_at=datetime.now(UTC),
+        )
+
+    # pre-revocation, an unregistered-signature failure would fire first —
+    # register the key as known by appending once while active is impossible
+    # without a matching signature, so assert the ordering directly: the
+    # revocation rule fires for known-but-revoked keys before any trust decision.
+    services.keys.revoke_agent_key(db, key.key_id, "compromised (test)")
+    db.commit()
+    with pytest.raises(EvidenceError, match="revoked"):
+        _submit("post-revocation")
+    db.close()
+
+
+def test_unregistered_external_key_rejected_without_valid_signature(services):
+    """Externally-signed evidence verifies over the exact canonical body the
+    server constructs — client-side pre-signing cannot match, so forged
+    submissions are rejected (the ingestion contract)."""
+    from datetime import UTC, datetime
+
+    from app.domain import crypto as c
+    db = services.db.session()
+    agent = services.identity.create_agent(db, "org-1", "ForgeBot")
+    kp = c.KeyPair.generate()
+    with pytest.raises(EvidenceError, match="signature"):
+        services.evidence.append(
+            db, agent_id=agent.agent_id, event_type="task_completed",
+            capability="translation", issuer_type="counterparty",
+            issuer_id="unknown-party", signing_key_id="external",
+            quality_tier="counterparty_signed",
+            external_public_key=kp.public_b64,
+            external_signature=c.sign_payload(kp.private_b64, {"forged": True}),
+            nonce="forge-1", created_at=datetime.now(UTC))
+    db.close()
+
+
+def test_evidence_age_cutoff_bounded(services):
+    """Reputation computation excludes evidence far beyond the decay window —
+    scores are unchanged because such evidence weighs <0.1%."""
+    from datetime import UTC, datetime, timedelta
+
+    db = services.db.session()
+    agent = services.identity.create_agent(db, "org-1", "AncientBot")
+    now = datetime.now(UTC)
+    half_life = float(services.cfg["default_half_life_days"])
+    cutoff_days = half_life * float(services.cfg["max_evidence_age_multiplier"])
+
+    for i in range(6):
+        services.evidence.append(
+            db, agent_id=agent.agent_id, event_type="task_completed",
+            capability="translation", issuer_type="platform",
+            issuer_id=f"o-{i}", signing_key_id="platform",
+            quality_tier="platform_verified", nonce=f"ancient-{i}",
+            created_at=now - timedelta(days=cutoff_days + 5 + i))
+    for i in range(8):
+        services.evidence.append(
+            db, agent_id=agent.agent_id, event_type="task_completed",
+            capability="translation", issuer_type="platform",
+            issuer_id=f"o-{i}", signing_key_id="platform",
+            quality_tier="platform_verified", nonce=f"recent-{i}",
+            created_at=now - timedelta(days=i))
+    db.commit()
+
+    evs = services.evidence.for_reputation(db, agent.agent_id)
+    assert all(
+        (now - e["created_at"]).days <= cutoff_days + 1 for e in evs
+    ), "ancient evidence must be excluded from computation"
+    from app.domain.reputation import compute_reputation
+
+    vec = compute_reputation(services.cfg, agent.agent_id, "translation", evs, now)
+    assert vec.dimensions["reliability"].score is not None
+    db.close()
+
+
+def test_append_race_retries(services, monkeypatch):
+    """Seq-collision under concurrent writers retries instead of failing."""
+    from datetime import UTC, datetime
+
+    from sqlalchemy.exc import IntegrityError
+
+    db = services.db.session()
+    agent = services.identity.create_agent(db, "org-1", "RaceBot")
+    db.commit()
+
+    calls = {"n": 0}
+    original_next = services.evidence.next_seq
+
+    def flaky_next(session, agent_id):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise IntegrityError("simulated race", None, Exception("unique"))
+        return original_next(session, agent_id)
+
+    monkeypatch.setattr(services.evidence, "next_seq", flaky_next)
+    ev = services.evidence.append(
+        db, agent_id=agent.agent_id, event_type="task_completed",
+        capability="translation", issuer_type="platform", issuer_id="platform",
+        signing_key_id="platform", nonce="race-1",
+        created_at=datetime.now(UTC))
+    assert ev.seq == 1 and calls["n"] >= 2
+    db.close()

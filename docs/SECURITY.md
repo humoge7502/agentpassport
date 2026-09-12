@@ -16,7 +16,8 @@ AgentPassport treats security as the product. This document describes what is en
 | Platform key | auto-generated at first boot into `APP_SECRET_KEYS_PATH` (file, 0600 on POSIX) | inject from a secret manager / KMS; mount read-only |
 | Agent keys | server-managed, same store | **owner-held**: agent signs locally, platform only stores public keys (supported via externally-signed evidence) |
 | Rotation | `POST /agents/{id}/keys/rotate` — old key retired, rotation event chained into evidence | same API |
-| Revocation | `revoke_agent_key` + platform-signed attestation + audit event; post-revocation signatures fail verification | same |
+| Revocation | `revoke_agent_key` + platform-signed attestation + audit event; post-revocation signatures fail verification **and revocation is enforced at ingestion** — evidence signed by a revoked key is rejected on submission, not merely flagged after the fact | same |
+| Unregistered signers | externally-signed evidence from a key unknown to the platform is accepted only if the signature cryptographically verifies, and is downgraded to the `self_reported` tier (issuer `external`); an invalid signature from an unknown key is rejected outright | same |
 | Compromise | revoke → re-verify path; historical chain remains verifiable via retired/revoked key material | same |
 
 **Never**: private keys in the DB, in logs, in API responses, or committed to the repo (`.gitignore` blocks `keys/`).
@@ -41,7 +42,7 @@ No third-party "skill" is installed or executed in this repo. External guidance 
 1. Single-operator trust root: the platform key is the anchor. If the platform is compromised, platform-verified evidence is forgeable. Mitigation path: threshold/HSM-backed keys, external auditors.
 2. Sybil/collusion defenses are **heuristics** (caps, damping, clustering flags) — they raise attack cost; they do not make Sybil attacks impossible. See THREAT_MODEL.md.
 3. Rate limiter is in-memory (per-process). Use a shared store (Redis) for multi-replica deployments.
-4. SQLite dev mode lacks concurrent-write robustness; PostgreSQL is the supported multi-user backend.
+4. SQLite dev mode: concurrent evidence appends are retried via `SAVEPOINT` (bounded retries with nonce registration), but SQLite remains single-writer; PostgreSQL is the supported multi-user backend.
 5. Admin key auth is a development-grade control; production deployments should integrate OAuth 2.1 (MCP-compatible) before exposing beyond a trusted network.
 
 ## Reporting

@@ -36,6 +36,9 @@ class DimensionScore:
     positive: float
     negative: float
     evidence_count: int
+    issuers: set = field(default_factory=set)   # pooled for overall confidence
+    tiers: set = field(default_factory=set)
+    time_span: float = 0.0                      # seconds between first/last event
 
     def to_dict(self) -> dict:
         return {
@@ -51,6 +54,7 @@ class ReputationVector:
     capability: str
     computed_at: datetime
     dimensions: dict[str, DimensionScore] = field(default_factory=dict)
+    cfg: TrustConfig | None = None  # carried so overall() can pool confidence
 
     def to_dict(self) -> dict:
         return {
@@ -61,14 +65,29 @@ class ReputationVector:
         }
 
     def overall(self) -> DimensionScore:
-        """Aggregate across dimensions: weighted by evidence mass, UNKNOWN-aware."""
+        """Aggregate across dimensions with POOLED evidence.
+
+        Overall confidence derives from the total evidence mass and its
+        diversity — not from the weakest dimension. One audit event must not
+        cap the certainty of a large behavioral base. UNKNOWN only when no
+        dimension carries sufficient evidence at all.
+        """
         known = [(d, s) for d, s in self.dimensions.items() if s.score is not None]
         if not known:
             return DimensionScore(None, 0.0, 0.0, 0.0, 0.0, 0)
-        mass = sum(s.n_eff for _, s in known) or 1e-9
-        score = sum((s.score or 0.0) * s.n_eff for _, s in known) / mass
-        conf = min(s.confidence for _, s in known)  # bounded by weakest dimension
+        cfg = self.cfg or TrustConfig()
         n_eff = sum(s.n_eff for _, s in known)
+        mass = n_eff or 1e-9
+        score = sum((s.score or 0.0) * s.n_eff for _, s in known) / mass
+        raw_conf = 1.0 - 1.0 / (1.0 + n_eff / float(cfg["confidence_n_half"]))
+        issuers: set = set()
+        tiers: set = set()
+        span = 0.0
+        for _, s in known:
+            issuers |= s.issuers
+            tiers |= s.tiers
+            span = max(span, s.time_span)
+        conf = raw_conf * diversity_discount(cfg, issuers, tiers, span)
         pos = sum(s.positive for _, s in known)
         neg = sum(s.negative for _, s in known)
         count = sum(s.evidence_count for _, s in known)
@@ -134,14 +153,16 @@ def dimension_score(
         count += 1
 
     if n_eff < float(cfg["min_effective_evidence"]):
-        return DimensionScore(None, 0.0, n_eff, pos, neg, count)
+        return DimensionScore(None, 0.0, n_eff, pos, neg, count,
+                              issuers=issuers, tiers=tiers)
 
     prior = float(cfg["prior_strength"])
     mean01 = (pos + prior * float(cfg["prior_mean"])) / (pos + neg + prior)
     raw_conf = 1.0 - 1.0 / (1.0 + n_eff / float(cfg["confidence_n_half"]))
     span = (max(timestamps) - min(timestamps)).total_seconds() if len(timestamps) > 1 else 0.0
     conf = raw_conf * diversity_discount(cfg, issuers, tiers, span)
-    return DimensionScore(100.0 * mean01, conf, n_eff, pos, neg, count)
+    return DimensionScore(100.0 * mean01, conf, n_eff, pos, neg, count,
+                          issuers=issuers, tiers=tiers, time_span=span)
 
 
 def compute_reputation(
@@ -153,7 +174,8 @@ def compute_reputation(
 ) -> ReputationVector:
     """Full capability-conditioned reputation vector R(agent, capability, time)."""
     now = _as_aware(now or datetime.now(UTC))
-    vec = ReputationVector(agent_id=agent_id, capability=capability, computed_at=now)
+    vec = ReputationVector(agent_id=agent_id, capability=capability,
+                           computed_at=now, cfg=cfg)
     for dim in cfg["dimensions"]:
         vec.dimensions[dim] = dimension_score(cfg, evidence, dim, now)
     return vec

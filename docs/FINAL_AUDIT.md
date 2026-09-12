@@ -1,19 +1,20 @@
 # FINAL AUDIT
 
-*Independent audit pass, 2026-09-12. Posture: "the implementation is broken until proven otherwise." Every claim below was verified by execution on this machine, not assumed.*
+*Independent audit pass, 2026-09-12; second hardening pass, 2026-09-13. Posture: "the implementation is broken until proven otherwise." Every claim below was verified by execution on this machine, not assumed.*
 
 ## Verification evidence
 
 | Check | Command | Result |
 |---|---|---|
-| Backend tests | `pytest tests/` | **74 passed** (unit + service + API integration + interop) |
+| Backend tests | `pytest tests/` | **78 passed** (unit + service + API integration + interop + iteration-2 regressions) |
 | Lint | `ruff check app tests lab benchmarks` | **clean** |
 | Adversarial lab | `python -m lab.attacks` | **11/11 attacks blocked/detected** |
-| AgentTrustBench | `python -m benchmarks.agenttrustbench` | **7/7 scenarios pass** (incl. decision p95 ≈ 11–13 ms) |
+| AgentTrustBench | `python -m benchmarks.agenttrustbench` | **7/7 scenarios pass** (decision p95 ≈ 13–23 ms across runs) |
 | Frontend typecheck + build | `tsc --noEmit && vite build` | **clean** (69 KB gzip) |
 | Migration | `alembic upgrade head` on fresh SQLite | **clean** |
 | Full-stack smoke | API + UI live, seeded, pages exercised in-browser | **working** |
 | Visual acceptance | independent judge over 9 rendered pages | **9/9 pass** (1 cosmetic nit, fixed) |
+| Mobile layout | CDP-measured `scrollWidth` == 390 on all 9 routes @ 390×844 | **pass** (1 real defect found & fixed, below) |
 
 ## Critical issues
 
@@ -50,6 +51,16 @@
 - Policy `max_confidence` matcher missing — added (high-value human-approval rule).
 - Evidence visibility matrix — tightened + parametrized regression test.
 - Owner transfer to a non-existent org hit FK constraint — auto-ensure org + lab attack now passes.
+
+## Second pass (2026-09-13): hardening iteration — findings & resolutions
+
+1. **Evidence signed by a revoked key was verifiable at ingestion** (high) — ingestion now checks key status against the registry *before* signature verification and rejects revoked-key evidence (`test_revoked_key_rejected_at_ingestion`).
+2. **Unregistered external signer handling was inconsistent** (medium) — externally-signed evidence with an unknown key now requires a valid signature and is honestly downgraded to `self_reported`/`external`; invalid signatures from unknown keys are rejected (`test_unregistered_external_key_rejected_without_valid_signature`).
+3. **Overall confidence used a min-across-dimensions aggregate** (high, design) — one thin dimension capped the certainty of a large behavioral base. Replaced with pooled confidence: total evidence mass × issuer/tier/time-span diversity discount, in the domain model, the decision-path view, and the UI (`overall()` + tests; seed re-tuned so the killer demo still shows ALLOW → REVERIFY across the model change).
+4. **Concurrent evidence appends could lose writes under contention** (medium) — append now retries inside a `SAVEPOINT` with bounded retries and nonce registration (`test_append_race_retries`).
+5. **Unbounded growth paths** (low) — replay-nonce window pruned opportunistically; rate-limiter client tracker bounded (10k) with expired-window eviction; reputation input bounded by an evidence age cutoff (10 × longest half-life).
+6. **Overview page horizontally overflowed on mobile** (medium, visual) — implicit single-column grid tracks sized to the embedded table's min-content (page rendered 512 px wide at a 390 px viewport). All responsive grids now declare explicit `grid-cols-1` (`minmax(0,1fr)`) tracks; verified by CDP measurement across all 9 routes.
+7. **WCAG contrast** — `--color-ink-faint` raised to 4.5:1 on the surface background.
 
 ## Verdict
 

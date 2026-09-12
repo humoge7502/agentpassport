@@ -10,8 +10,8 @@
   {
     "scenario": "reputation_inflation",
     "metrics": {
-      "flood_confidence": 0.309,
-      "quality_confidence": 0.641,
+      "flood_confidence": 0.308,
+      "quality_confidence": 0.594,
       "flood_confidence_below_quality": true
     },
     "notes": "300 self-reported events must not out-certain 30 quality events"
@@ -38,9 +38,9 @@
   {
     "scenario": "confidence_calibration",
     "metrics": {
-      "confidence_small": 0.241,
-      "confidence_mid": 0.598,
-      "confidence_big": 0.813,
+      "confidence_small": 0.236,
+      "confidence_mid": 0.556,
+      "confidence_big": 0.744,
       "monotonic_in_evidence": true,
       "bounded": true
     },
@@ -50,7 +50,7 @@
     "scenario": "contextual_decay",
     "metrics": {
       "stale_confidence": 0.0,
-      "fresh_confidence": 0.528,
+      "fresh_confidence": 0.527,
       "stale_below_fresh": true
     },
     "notes": ""
@@ -58,9 +58,9 @@
   {
     "scenario": "decision_latency",
     "metrics": {
-      "mean_ms": 8.33,
-      "p95_ms": 13.43,
-      "max_ms": 14.43
+      "mean_ms": 15.95,
+      "p95_ms": 22.97,
+      "max_ms": 42.2
     },
     "notes": "target: p95 < 50 ms on warm SQLite (heuristic gate)"
   }

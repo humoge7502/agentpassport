@@ -16,7 +16,7 @@
   /* ink */
   --color-ink: #e6edf3;
   --color-ink-dim: #9db1c2;
-  --color-ink-faint: #64798c;
+  --color-ink-faint: #7288a0; /* ≥ 4.5:1 on bg for small text (WCAG AA) */
 
   /* accent: signal teal — interactive/brand only, used sparingly */
   --color-accent: #2dd4bf;

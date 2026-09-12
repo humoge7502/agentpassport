@@ -15,7 +15,8 @@ Scope: the AgentPassport platform, its APIs, the evidence ledger, the reputation
 | Threat | Vector | Defense | Status |
 |---|---|---|---|
 | Identity spoofing | fake agent claims a trusted identity | server-issued `agent_id`; forged submissions fail signature verification; passports are platform-signed | **BLOCKED** (lab ✓) |
-| Credential/key theft | stolen Ed25519 key | key rotation + revocation; revocation attestation; post-revocation signatures fail | **PATH EXISTS** (lab ✓) |
+| Credential/key theft | stolen Ed25519 key | key rotation + revocation; revocation attestation; post-revocation signatures fail, and new evidence signed by a **revoked key is rejected at ingestion** | **PATH EXISTS** (lab ✓) |
+| Revoked-key continued use | attacker keeps submitting evidence with a revoked key | ingestion checks key status against the registry before accepting; regression-tested (`test_revoked_key_rejected_at_ingestion`) | **BLOCKED** (tests ✓) |
 | Replay | resubmit captured evidence | per-agent nonce window; duplicates rejected | **BLOCKED** (lab ✓) |
 | Event forgery | fake counterparty evidence | Ed25519 verification over canonical body at ingestion | **BLOCKED** (lab ✓) |
 | Event tampering | direct DB writes to history | append-only DB triggers + hash-chain verification (defense in depth) | **BLOCKED** (lab ✓) |
@@ -26,7 +27,7 @@ Scope: the AgentPassport platform, its APIs, the evidence ledger, the reputation
 | Capability escalation | low-risk agent grabs high-risk capability | escalation forces reverify; new capability has no reputation → UNKNOWN → gated | **RE-EVALUATION FORCED** (lab ✓) |
 | Owner transfer | reputation follows to a new owner | ownership continuity 0 → inheritance capped at 0.75; reverify forced | **CONFIGURABLE** (lab ✓) |
 | Evidence flooding | 100s of self-reports to inflate confidence | quality-tier weights + diversity discount (issuers × tiers × time span) | **DAMPED** (bench ✓) |
-| API abuse / DoS | request floods | rate limiting (per-client window); O(evidence-of-one-agent) decision path (p95 ≈ 11 ms at 120 events) | partial — Redis-backed limiter for multi-replica |
+| API abuse / DoS | request floods | rate limiting (per-client window, bounded tracker with expired-window pruning); O(evidence-of-one-agent) decision path with evidence age cutoff (decision p95 ≈ 13–23 ms at 120 events) | partial — Redis-backed limiter for multi-replica |
 | Confused deputy / delegation abuse | malicious requester picks a high-trust delegate for a different purpose | delegation evaluated against delegate+capability+risk+value; decisions recorded with reasons; capability-matched propagation prevents cross-capability leakage | mitigated |
 | Prompt injection *(out of scope, documented)* | agents are LLM systems; AgentPassport evaluates *records*, not live agent behavior | boundary: the platform attests to evidence about behavior, never to live intent; integrators must gate actual tool execution themselves | **documented boundary** |
 | Platform compromise | attacker controls the trust root | out of scope for V1 single-operator design; mitigations: HSM/threshold keys, external auditors, cross-org federation (future) | **known limitation** |

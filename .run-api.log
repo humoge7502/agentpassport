@@ -1,75 +1,244 @@
-INFO:     Started server process [21892]
+INFO:     Started server process [28292]
 INFO:     Waiting for application startup.
-{"ts": "2026-09-12 05:53:53,028", "logger": "apscheduler.scheduler", "level": "INFO", "message": "Adding job tentatively -- it will be properly scheduled when the scheduler starts"}
-{"ts": "2026-09-12 05:53:53,029", "logger": "apscheduler.scheduler", "level": "INFO", "message": "Adding job tentatively -- it will be properly scheduled when the scheduler starts"}
-{"ts": "2026-09-12 05:53:53,032", "logger": "apscheduler.scheduler", "level": "INFO", "message": "Added job \"_snapshot_job\" to job store \"default\""}
-{"ts": "2026-09-12 05:53:53,033", "logger": "apscheduler.scheduler", "level": "INFO", "message": "Added job \"_security_scan_job\" to job store \"default\""}
-{"ts": "2026-09-12 05:53:53,033", "logger": "apscheduler.scheduler", "level": "INFO", "message": "Scheduler started"}
-{"ts": "2026-09-12 05:53:53,035", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.scheduler_started"}
-{"ts": "2026-09-12 05:53:53,035", "logger": "agentpassport", "level": "INFO", "message": "agentpassport.started", "env": "development"}
+{"ts": "2026-09-13 01:59:01,022", "logger": "apscheduler.scheduler", "level": "INFO", "message": "Adding job tentatively -- it will be properly scheduled when the scheduler starts"}
+{"ts": "2026-09-13 01:59:01,023", "logger": "apscheduler.scheduler", "level": "INFO", "message": "Adding job tentatively -- it will be properly scheduled when the scheduler starts"}
+{"ts": "2026-09-13 01:59:01,028", "logger": "apscheduler.scheduler", "level": "INFO", "message": "Added job \"_snapshot_job\" to job store \"default\""}
+{"ts": "2026-09-13 01:59:01,028", "logger": "apscheduler.scheduler", "level": "INFO", "message": "Added job \"_security_scan_job\" to job store \"default\""}
+{"ts": "2026-09-13 01:59:01,029", "logger": "apscheduler.scheduler", "level": "INFO", "message": "Scheduler started"}
+{"ts": "2026-09-13 01:59:01,031", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.scheduler_started"}
+{"ts": "2026-09-13 01:59:01,032", "logger": "agentpassport", "level": "INFO", "message": "agentpassport.started", "env": "development"}
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-{"ts": "2026-09-12 05:53:53,693", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/health", "status": 200, "duration_ms": 92.0}
-INFO:     127.0.0.1:62008 - "GET /health HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:53:54,073", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 30.6}
-INFO:     127.0.0.1:62010 - "GET /api/v1/agents HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:54:52,503", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 36.2}
-INFO:     127.0.0.1:59088 - "GET /api/v1/agents HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:54:52,524", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 50.5}
-INFO:     127.0.0.1:59090 - "GET /api/v1/delegations HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:54:52,524", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 56.1}
-INFO:     127.0.0.1:59089 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:54:52,557", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 11.6}
-INFO:     127.0.0.1:60016 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:54:52,559", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 18.1}
-INFO:     127.0.0.1:60014 - "GET /api/v1/delegations HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:54:52,567", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 43.9}
-INFO:     127.0.0.1:59092 - "GET /api/v1/agents HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:56:04,431", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 23.7}
-INFO:     127.0.0.1:64645 - "GET /api/v1/agents HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:56:04,454", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 15.1}
-INFO:     127.0.0.1:64647 - "GET /api/v1/agents HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:56:20,642", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/f51bb731564b415dab49062ef38e7124/reputation", "status": 200, "duration_ms": 138.4}
-INFO:     127.0.0.1:64932 - "GET /api/v1/agents/f51bb731564b415dab49062ef38e7124/reputation HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:56:20,660", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/f51bb731564b415dab49062ef38e7124/evidence", "status": 200, "duration_ms": 148.3}
-INFO:     127.0.0.1:64933 - "GET /api/v1/agents/f51bb731564b415dab49062ef38e7124/evidence?visibility=org HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:56:20,661", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/f51bb731564b415dab49062ef38e7124/passport", "status": 200, "duration_ms": 165.5}
-INFO:     127.0.0.1:64929 - "GET /api/v1/agents/f51bb731564b415dab49062ef38e7124/passport HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:56:20,664", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/f51bb731564b415dab49062ef38e7124/epochs", "status": 200, "duration_ms": 141.4}
-INFO:     127.0.0.1:65018 - "GET /api/v1/agents/f51bb731564b415dab49062ef38e7124/epochs HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:56:20,680", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/f51bb731564b415dab49062ef38e7124/reputation", "status": 200, "duration_ms": 18.6}
-INFO:     127.0.0.1:65020 - "GET /api/v1/agents/f51bb731564b415dab49062ef38e7124/reputation HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:56:20,694", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/f51bb731564b415dab49062ef38e7124/epochs", "status": 200, "duration_ms": 11.6}
-INFO:     127.0.0.1:52897 - "GET /api/v1/agents/f51bb731564b415dab49062ef38e7124/epochs HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:56:20,701", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/f51bb731564b415dab49062ef38e7124/evidence", "status": 200, "duration_ms": 26.4}
-INFO:     127.0.0.1:62597 - "GET /api/v1/agents/f51bb731564b415dab49062ef38e7124/evidence?visibility=org HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:56:20,706", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/f51bb731564b415dab49062ef38e7124/passport", "status": 200, "duration_ms": 24.5}
-INFO:     127.0.0.1:52896 - "GET /api/v1/agents/f51bb731564b415dab49062ef38e7124/passport HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:56:56,062", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/trust/graph", "status": 200, "duration_ms": 27.4}
-INFO:     127.0.0.1:54511 - "GET /api/v1/trust/graph HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:56:56,081", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/trust/graph", "status": 200, "duration_ms": 9.9}
-INFO:     127.0.0.1:54513 - "GET /api/v1/trust/graph HTTP/1.1" 200 OK
-{"ts": "2026-09-12 05:58:53,070", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-12 05:58:53 IST)\" (scheduled at 2026-09-12 05:58:53.028213+05:30)"}
-{"ts": "2026-09-12 05:58:53,213", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
-{"ts": "2026-09-12 05:58:53,214", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-12 06:03:53 IST)\" executed successfully"}
-{"ts": "2026-09-12 06:03:53,035", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-12 06:08:53 IST)\" (scheduled at 2026-09-12 06:03:53.028213+05:30)"}
-{"ts": "2026-09-12 06:03:53,037", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-12 06:13:53 IST)\" (scheduled at 2026-09-12 06:03:53.029192+05:30)"}
-{"ts": "2026-09-12 06:03:53,175", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-12 06:13:53 IST)\" executed successfully"}
-{"ts": "2026-09-12 06:03:53,203", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
-{"ts": "2026-09-12 06:03:53,203", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-12 06:08:53 IST)\" executed successfully"}
-{"ts": "2026-09-12 06:08:53,080", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-12 06:13:53 IST)\" (scheduled at 2026-09-12 06:08:53.028213+05:30)"}
-{"ts": "2026-09-12 06:08:53,320", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
-{"ts": "2026-09-12 06:08:53,321", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-12 06:13:53 IST)\" executed successfully"}
-{"ts": "2026-09-12 06:13:53,045", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-12 06:18:53 IST)\" (scheduled at 2026-09-12 06:13:53.028213+05:30)"}
-{"ts": "2026-09-12 06:13:53,048", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-12 06:23:53 IST)\" (scheduled at 2026-09-12 06:13:53.029192+05:30)"}
-{"ts": "2026-09-12 06:13:53,073", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-12 06:23:53 IST)\" executed successfully"}
-{"ts": "2026-09-12 06:13:53,125", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
-{"ts": "2026-09-12 06:13:53,125", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-12 06:18:53 IST)\" executed successfully"}
-{"ts": "2026-09-12 06:18:53,044", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-12 06:23:53 IST)\" (scheduled at 2026-09-12 06:18:53.028213+05:30)"}
-{"ts": "2026-09-12 06:18:53,125", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
-{"ts": "2026-09-12 06:18:53,126", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-12 06:23:53 IST)\" executed successfully"}
-{"ts": "2026-09-12 06:23:53,040", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-12 06:28:53 IST)\" (scheduled at 2026-09-12 06:23:53.028213+05:30)"}
-{"ts": "2026-09-12 06:23:53,044", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-12 06:33:53 IST)\" (scheduled at 2026-09-12 06:23:53.029192+05:30)"}
-{"ts": "2026-09-12 06:23:53,074", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-12 06:33:53 IST)\" executed successfully"}
-{"ts": "2026-09-12 06:23:53,125", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
-{"ts": "2026-09-12 06:23:53,126", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-12 06:28:53 IST)\" executed successfully"}
+{"ts": "2026-09-13 01:59:27,555", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/health", "status": 200, "duration_ms": 524.0}
+INFO:     127.0.0.1:54477 - "GET /health HTTP/1.1" 200 OK
+{"ts": "2026-09-13 01:59:27,986", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 84.8}
+INFO:     127.0.0.1:54307 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:00:20,462", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 119.1}
+INFO:     127.0.0.1:51593 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:00:20,490", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 5.9}
+INFO:     127.0.0.1:51595 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:00:20,526", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 240.4}
+INFO:     127.0.0.1:51591 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:00:20,562", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 224.1}
+INFO:     127.0.0.1:51592 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:00:20,567", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 12.7}
+INFO:     127.0.0.1:51597 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:00:20,605", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 28.4}
+INFO:     127.0.0.1:51599 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:04:01,086", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:09:01 IST)\" (scheduled at 2026-09-13 02:04:01.022255+05:30)"}
+{"ts": "2026-09-13 02:04:01,269", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
+{"ts": "2026-09-13 02:04:01,269", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:09:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:09:01,156", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:14:01 IST)\" (scheduled at 2026-09-13 02:09:01.022255+05:30)"}
+{"ts": "2026-09-13 02:09:01,239", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-13 02:19:01 IST)\" (scheduled at 2026-09-13 02:09:01.023402+05:30)"}
+{"ts": "2026-09-13 02:09:01,752", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-13 02:19:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:09:01,949", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
+{"ts": "2026-09-13 02:09:01,950", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:14:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:10:23,171", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 175.3}
+INFO:     127.0.0.1:55142 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:11:27,350", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 509.3}
+INFO:     127.0.0.1:55506 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:12:06,772", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 99.5}
+INFO:     127.0.0.1:51826 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:12:06,788", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 119.4}
+INFO:     127.0.0.1:51825 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:12:06,851", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 194.2}
+INFO:     127.0.0.1:51824 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:12:06,870", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 40.5}
+INFO:     127.0.0.1:51830 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:12:06,871", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 42.9}
+INFO:     127.0.0.1:51828 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:12:06,906", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 27.1}
+INFO:     127.0.0.1:51832 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:12:46,680", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 64.0}
+INFO:     127.0.0.1:53211 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:12:46,701", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 85.2}
+INFO:     127.0.0.1:53210 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:12:46,720", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 106.7}
+INFO:     127.0.0.1:53209 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:12:46,731", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 11.7}
+INFO:     127.0.0.1:52847 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:12:46,738", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 37.9}
+INFO:     127.0.0.1:52845 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:12:46,804", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 39.9}
+INFO:     127.0.0.1:52849 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:13:10,794", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/epochs", "status": 200, "duration_ms": 228.0}
+INFO:     127.0.0.1:58805 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/epochs HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:13:10,875", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/reputation", "status": 200, "duration_ms": 401.0}
+INFO:     127.0.0.1:58802 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/reputation HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:13:10,885", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/epochs", "status": 200, "duration_ms": 33.6}
+INFO:     127.0.0.1:58809 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/epochs HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:13:10,940", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/passport", "status": 200, "duration_ms": 388.1}
+INFO:     127.0.0.1:58804 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/passport HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:13:10,949", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/reputation", "status": 200, "duration_ms": 38.4}
+INFO:     127.0.0.1:58811 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/reputation HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:13:10,954", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/evidence", "status": 200, "duration_ms": 413.4}
+INFO:     127.0.0.1:58803 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/evidence?visibility=org HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:13:11,007", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/evidence", "status": 200, "duration_ms": 21.6}
+INFO:     127.0.0.1:51014 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/evidence?visibility=org HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:13:11,012", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/passport", "status": 200, "duration_ms": 29.4}
+INFO:     127.0.0.1:51012 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/passport HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:14:01,065", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:19:01 IST)\" (scheduled at 2026-09-13 02:14:01.022255+05:30)"}
+{"ts": "2026-09-13 02:14:01,312", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
+{"ts": "2026-09-13 02:14:01,313", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:19:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:16:44,691", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 154.5}
+INFO:     127.0.0.1:65127 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:16:44,704", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 167.1}
+INFO:     127.0.0.1:65128 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:16:44,750", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 20.2}
+INFO:     127.0.0.1:65132 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:16:44,756", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 27.6}
+INFO:     127.0.0.1:65131 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:16:44,762", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 252.2}
+INFO:     127.0.0.1:65126 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:16:44,795", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 22.8}
+INFO:     127.0.0.1:65134 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:19:01,123", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:24:01 IST)\" (scheduled at 2026-09-13 02:19:01.022255+05:30)"}
+{"ts": "2026-09-13 02:19:01,144", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-13 02:29:01 IST)\" (scheduled at 2026-09-13 02:19:01.023402+05:30)"}
+{"ts": "2026-09-13 02:19:01,420", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-13 02:29:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:19:01,510", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
+{"ts": "2026-09-13 02:19:01,512", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:24:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:24:01,135", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:29:01 IST)\" (scheduled at 2026-09-13 02:24:01.022255+05:30)"}
+{"ts": "2026-09-13 02:24:01,424", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
+{"ts": "2026-09-13 02:24:01,425", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:29:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:27:15,809", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 264.0}
+INFO:     127.0.0.1:60419 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:27:15,853", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 262.1}
+INFO:     127.0.0.1:60420 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:27:15,886", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 26.9}
+INFO:     127.0.0.1:60423 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:27:15,904", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 32.7}
+INFO:     127.0.0.1:60425 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:27:15,913", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 317.4}
+INFO:     127.0.0.1:60421 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:27:15,945", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 24.5}
+INFO:     127.0.0.1:60427 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:28:43,950", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 309.5}
+INFO:     127.0.0.1:59329 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:28:43,965", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 322.1}
+INFO:     127.0.0.1:59330 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:28:44,039", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 36.0}
+INFO:     127.0.0.1:59335 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:28:44,044", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 35.7}
+INFO:     127.0.0.1:59336 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:28:44,050", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 462.8}
+INFO:     127.0.0.1:59328 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:28:44,086", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 20.7}
+INFO:     127.0.0.1:59338 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:29:01,054", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:34:01 IST)\" (scheduled at 2026-09-13 02:29:01.022255+05:30)"}
+{"ts": "2026-09-13 02:29:01,056", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-13 02:39:01 IST)\" (scheduled at 2026-09-13 02:29:01.023402+05:30)"}
+{"ts": "2026-09-13 02:29:01,075", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-13 02:39:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:29:01,177", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
+{"ts": "2026-09-13 02:29:01,178", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:34:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:34:01,122", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:39:01 IST)\" (scheduled at 2026-09-13 02:34:01.022255+05:30)"}
+{"ts": "2026-09-13 02:34:01,555", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
+{"ts": "2026-09-13 02:34:01,558", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:39:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:34:07,857", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 119.9}
+INFO:     127.0.0.1:55702 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:07,868", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 139.3}
+INFO:     127.0.0.1:55701 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:07,934", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 269.2}
+INFO:     127.0.0.1:55700 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:07,951", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 27.9}
+INFO:     127.0.0.1:55706 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:07,953", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 31.5}
+INFO:     127.0.0.1:55704 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:08,017", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 55.5}
+INFO:     127.0.0.1:55708 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:11,081", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/epochs", "status": 200, "duration_ms": 52.5}
+INFO:     127.0.0.1:56117 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/epochs HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:11,116", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/reputation", "status": 200, "duration_ms": 95.0}
+INFO:     127.0.0.1:56113 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/reputation HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:11,118", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/evidence", "status": 200, "duration_ms": 92.7}
+INFO:     127.0.0.1:56116 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/evidence?visibility=org HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:11,131", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/passport", "status": 200, "duration_ms": 214.8}
+INFO:     127.0.0.1:56111 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/passport HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:11,222", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/epochs", "status": 200, "duration_ms": 8.0}
+INFO:     127.0.0.1:56119 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/epochs HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:11,319", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/reputation", "status": 200, "duration_ms": 50.0}
+INFO:     127.0.0.1:54565 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/reputation HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:11,326", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/passport", "status": 200, "duration_ms": 51.4}
+INFO:     127.0.0.1:54569 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/passport HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:11,327", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/evidence", "status": 200, "duration_ms": 55.2}
+INFO:     127.0.0.1:54567 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/evidence?visibility=org HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:13,874", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/trust/graph", "status": 200, "duration_ms": 96.7}
+INFO:     127.0.0.1:52876 - "GET /api/v1/trust/graph HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:34:13,932", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/trust/graph", "status": 200, "duration_ms": 17.5}
+INFO:     127.0.0.1:52878 - "GET /api/v1/trust/graph HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:36:21,284", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 313.7}
+INFO:     127.0.0.1:63857 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:36:21,314", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 341.2}
+INFO:     127.0.0.1:63858 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:36:21,357", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 477.6}
+INFO:     127.0.0.1:63856 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:41,889", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 292.3}
+INFO:     127.0.0.1:63466 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:41,975", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 55.6}
+INFO:     127.0.0.1:62548 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:44,067", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 12.7}
+INFO:     127.0.0.1:56198 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:44,097", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 7.1}
+INFO:     127.0.0.1:56200 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:47,010", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 8.9}
+INFO:     127.0.0.1:61990 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:47,050", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 11.0}
+INFO:     127.0.0.1:61992 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:50,103", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/policies", "status": 200, "duration_ms": 84.1}
+INFO:     127.0.0.1:53561 - "GET /api/v1/policies HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:50,130", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/policies", "status": 200, "duration_ms": 6.4}
+INFO:     127.0.0.1:53563 - "GET /api/v1/policies HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:52,964", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/audit", "status": 200, "duration_ms": 24.3}
+INFO:     127.0.0.1:49232 - "GET /api/v1/audit HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:52,981", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/audit", "status": 200, "duration_ms": 7.3}
+INFO:     127.0.0.1:49234 - "GET /api/v1/audit HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:56,008", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 28.6}
+INFO:     127.0.0.1:56093 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:56,047", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 28.1}
+INFO:     127.0.0.1:56095 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:59,032", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 34.7}
+INFO:     127.0.0.1:61953 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:59,035", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 36.0}
+INFO:     127.0.0.1:61954 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:59,065", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 72.1}
+INFO:     127.0.0.1:61950 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:59,082", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/security/incidents", "status": 200, "duration_ms": 26.5}
+INFO:     127.0.0.1:61956 - "GET /api/v1/security/incidents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:59,084", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/delegations", "status": 200, "duration_ms": 24.8}
+INFO:     127.0.0.1:61958 - "GET /api/v1/delegations HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:37:59,113", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents", "status": 200, "duration_ms": 25.6}
+INFO:     127.0.0.1:65032 - "GET /api/v1/agents HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:38:02,079", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/evidence", "status": 200, "duration_ms": 26.1}
+INFO:     127.0.0.1:49195 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/evidence?visibility=org HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:38:02,086", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/epochs", "status": 200, "duration_ms": 32.4}
+INFO:     127.0.0.1:49196 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/epochs HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:38:02,115", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/passport", "status": 200, "duration_ms": 65.2}
+INFO:     127.0.0.1:49193 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/passport HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:38:02,123", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/epochs", "status": 200, "duration_ms": 21.8}
+INFO:     127.0.0.1:49200 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/epochs HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:38:02,133", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/evidence", "status": 200, "duration_ms": 33.7}
+INFO:     127.0.0.1:49198 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/evidence?visibility=org HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:38:02,144", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/reputation", "status": 200, "duration_ms": 92.0}
+INFO:     127.0.0.1:49194 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/reputation HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:38:02,165", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/passport", "status": 200, "duration_ms": 34.3}
+INFO:     127.0.0.1:54268 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/passport HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:38:02,172", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/agents/fcc4045a0005462aa1e42402ddd29971/reputation", "status": 200, "duration_ms": 16.6}
+INFO:     127.0.0.1:60248 - "GET /api/v1/agents/fcc4045a0005462aa1e42402ddd29971/reputation HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:38:05,155", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/trust/graph", "status": 200, "duration_ms": 16.8}
+INFO:     127.0.0.1:60963 - "GET /api/v1/trust/graph HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:38:05,177", "logger": "agentpassport", "level": "INFO", "message": "http.request", "method": "GET", "path": "/api/v1/trust/graph", "status": 200, "duration_ms": 11.6}
+INFO:     127.0.0.1:60965 - "GET /api/v1/trust/graph HTTP/1.1" 200 OK
+{"ts": "2026-09-13 02:39:01,094", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-13 02:49:01 IST)\" (scheduled at 2026-09-13 02:39:01.023402+05:30)"}
+{"ts": "2026-09-13 02:39:01,129", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:44:01 IST)\" (scheduled at 2026-09-13 02:39:01.022255+05:30)"}
+{"ts": "2026-09-13 02:39:01,417", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-13 02:49:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:39:01,531", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
+{"ts": "2026-09-13 02:39:01,533", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:44:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:44:01,217", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:49:01 IST)\" (scheduled at 2026-09-13 02:44:01.022255+05:30)"}
+{"ts": "2026-09-13 02:44:07,961", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
+{"ts": "2026-09-13 02:44:08,115", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:49:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:49:01,112", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:54:01 IST)\" (scheduled at 2026-09-13 02:49:01.022255+05:30)"}
+{"ts": "2026-09-13 02:49:01,126", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-13 02:59:01 IST)\" (scheduled at 2026-09-13 02:49:01.023402+05:30)"}
+{"ts": "2026-09-13 02:49:01,346", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_security_scan_job (trigger: interval[0:10:00], next run at: 2026-09-13 02:59:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:49:01,482", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
+{"ts": "2026-09-13 02:49:01,484", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:54:01 IST)\" executed successfully"}
+{"ts": "2026-09-13 02:54:01,218", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Running job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:59:01 IST)\" (scheduled at 2026-09-13 02:54:01.022255+05:30)"}
+{"ts": "2026-09-13 02:54:01,595", "logger": "agentpassport.jobs", "level": "INFO", "message": "jobs.reputation_snapshots", "agents": 8}
+{"ts": "2026-09-13 02:54:01,596", "logger": "apscheduler.executors.default", "level": "INFO", "message": "Job \"_snapshot_job (trigger: interval[0:05:00], next run at: 2026-09-13 02:59:01 IST)\" executed successfully"}

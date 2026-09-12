@@ -165,7 +165,7 @@ export function DemoPage() {
       <Step n={5} title="Trust decision changes — visibly" done={step > 5} active={step === 5}>
         {state.delegationAfter ? (
           <div className="space-y-3">
-            <div className="grid gap-2 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
               {state.delegation && (
                 <DecisionCard d={state.delegation} label="Before model change" />
               )}
