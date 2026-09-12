@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: agentpassport
+      POSTGRES_PASSWORD: agentpassport-dev  # dev only — override in prod
+      POSTGRES_DB: agentpassport
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agentpassport"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.api
+    environment:
+      APP_ENV: development
+      APP_DATABASE_URL: postgresql+psycopg://agentpassport:agentpassport-dev@db:5432/agentpassport
+      APP_ADMIN_API_KEY: ${APP_ADMIN_API_KEY:-dev-admin-key-change-me}
+      APP_PUBLIC_BASE_URL: http://localhost:8000
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    volumes:
+      - appkeys:/app/keys
+
+  web:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.web
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+
+volumes:
+  pgdata:
+  appkeys:

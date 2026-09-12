@@ -1,0 +1,12 @@
+[
+  {
+    "scenario": "sybil_endorsement_boost",
+    "metrics": {
+      "edges_damped": 10,
+      "reciprocal_damp_active": true,
+      "ring_propagated_score": 0.125,
+      "ring_propagation_discounted": true
+    },
+    "notes": ""
+  }
+]

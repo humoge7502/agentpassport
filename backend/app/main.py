@@ -16,6 +16,7 @@ from app.api_deps import correlation_id as corr_id_dep
 from app.api_misc import (
     audit_router, policy_router, router as misc_router, security_router,
 )
+from app.api_mcp import router as mcp_router
 from app.api_trust import router as trust_router
 from app.config import get_settings
 from app.services import get_services
@@ -118,6 +119,7 @@ def create_app() -> FastAPI:
     app.include_router(policy_router, prefix=prefix)
     app.include_router(security_router, prefix=prefix)
     app.include_router(audit_router, prefix=prefix)
+    app.include_router(mcp_router, prefix=prefix)
 
     # --- health/readiness (spec §48) ------------------------------------------
     @app.get("/health", tags=["system"])

@@ -185,6 +185,29 @@ def lifecycle(agent_id: str, body: LifecycleAction,
     return {"agent_id": agent.agent_id, "status": agent.status}
 
 
+@router.get("/{agent_id}/did.json")
+def get_did_document(agent_id: str, auth: OptionalAuth = Depends(),
+                     db: Session = Depends(get_db)):
+    """did:web-compatible DID document (ADR-011) — resolvable key material."""
+    from app.domain.interop import did_document
+    svc = get_services()
+    agent = _agent_or_404(db, agent_id)
+    doc = svc.identity.passport_document(db, agent)
+    return did_document(doc, get_settings().public_base_url)
+
+
+@router.get("/{agent_id}/attestation")
+def get_attestation(agent_id: str, auth: OptionalAuth = Depends(),
+                    db: Session = Depends(get_db)):
+    """VC-shaped attestation export (extension-point skeleton, see ADR-011)."""
+    from app.domain.interop import vc_attestation_skeleton
+    svc = get_services()
+    agent = _agent_or_404(db, agent_id)
+    doc = svc.identity.passport_document(db, agent)
+    kid, priv = svc.keys._platform()  # noqa: SLF001 — signing path
+    return vc_attestation_skeleton(doc, priv)
+
+
 @router.get("/{agent_id}/epochs")
 def list_epochs(agent_id: str, auth: OptionalAuth = Depends(), db: Session = Depends(get_db)):
     _agent_or_404(db, agent_id)

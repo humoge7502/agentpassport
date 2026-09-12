@@ -193,6 +193,8 @@ class IdentityService:
         )
 
         new_owner = transfer_to_org or agent.owner_org_id
+        if transfer_to_org:
+            self.ensure_org(db, transfer_to_org, transfer_to_org)
         new_caps = set(old_version.capabilities or [])
         new_caps |= set(capabilities_add or [])
         new_caps -= set(capabilities_remove or [])
