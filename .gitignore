@@ -16,3 +16,5 @@ htmlcov/
 .review/
 .run-*.log
 .scratch/
+.run-api.log
+.run-web.log
