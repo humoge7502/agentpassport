@@ -72,7 +72,8 @@ def test_full_trust_lifecycle(client, admin_headers):
 
     # 4. evidence chain verification endpoint exists
     # (verify via service-level test; here check evidence list shows chain)
-    r = client.get(f"/api/v1/agents/{agent_id}/evidence?visibility=org")
+    r = client.get(f"/api/v1/agents/{agent_id}/evidence?visibility=org",
+                   headers=admin_headers)
     events = r.json()["events"]
     assert events[0]["prev_event_hash"] == events[1]["event_hash"]
 

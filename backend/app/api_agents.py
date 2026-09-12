@@ -204,7 +204,7 @@ def get_attestation(agent_id: str, auth: OptionalAuth = Depends(),
     svc = get_services()
     agent = _agent_or_404(db, agent_id)
     doc = svc.identity.passport_document(db, agent)
-    kid, priv = svc.keys._platform()  # noqa: SLF001 — signing path
+    _kid, priv = svc.keys._platform()
     return vc_attestation_skeleton(doc, priv)
 
 

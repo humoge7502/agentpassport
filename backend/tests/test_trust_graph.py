@@ -2,16 +2,20 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
-from app.domain.trust_graph import (
-    cluster_security_flags, damp_edge_weights, find_dense_clusters,
-    find_reciprocal_cycles, lineage_risk, propagate_trust,
-)
 from app.domain.trust_config import TrustConfig
+from app.domain.trust_graph import (
+    cluster_security_flags,
+    damp_edge_weights,
+    find_dense_clusters,
+    find_reciprocal_cycles,
+    lineage_risk,
+    propagate_trust,
+)
 
 CFG = TrustConfig()
-NOW = datetime(2026, 9, 12, tzinfo=timezone.utc)
+NOW = datetime(2026, 9, 12, tzinfo=UTC)
 
 
 def edge(a, b, cap="translation", strength=0.9, conf=0.9):

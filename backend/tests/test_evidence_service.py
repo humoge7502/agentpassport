@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import itertools
+
 import pytest
 from sqlalchemy import select, text
 
@@ -30,7 +32,7 @@ def test_chain_and_signatures_build(services):
         .order_by(EvidenceEvent.seq)
     ).scalars().all()
     # hash chain linkage
-    for prev, cur in zip(events, events[1:]):
+    for prev, cur in itertools.pairwise(events):
         assert cur.prev_event_hash == prev.event_hash
     db.close()
 

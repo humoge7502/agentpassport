@@ -15,14 +15,12 @@ from __future__ import annotations
 
 import argparse
 import sys
-from datetime import timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from app.domain import crypto                       # noqa: E402
-from app.domain.reputation import compute_all_capabilities  # noqa: E402
-from app.services import build_services             # noqa: E402
+from app.domain import crypto
+from app.services import build_services
 
 
 def _evidence_stream(svc, db, agent_id, capability, *, days_span=60, successes=28,
@@ -31,7 +29,7 @@ def _evidence_stream(svc, db, agent_id, capability, *, days_span=60, successes=2
     now = __import__("datetime").datetime.now(__import__("datetime").timezone.utc)
     import datetime as dt
 
-    counter_kps = {c: crypto.KeyPair.generate() for c in range(2)}
+    {c: crypto.KeyPair.generate() for c in range(2)}
     plan: list[tuple[str, str, str, int]] = []
     for i in range(successes):
         tier = ("platform_verified", "counterparty_signed", "independent_audit")[i % 3]
@@ -166,7 +164,7 @@ def seed(fresh: bool = True) -> dict:
     svc.delegations.complete_delegation(db, deleg.delegation_id, "completed")
 
     # --- THE MODEL CHANGE: NegotiatorBot swaps atlas-4 → nova-7 ---------------
-    epoch2, summary = svc.identity.update_agent(
+    _epoch2, summary = svc.identity.update_agent(
         db, negotiator, trigger="model_changed", model_id="nova-7", model_family="nova")
     svc.evidence.append(
         db, agent_id=negotiator.agent_id, event_type="model_changed",
@@ -183,8 +181,8 @@ def seed(fresh: bool = True) -> dict:
     out["delegation_after_model_change"] = deleg2.delegation_id
 
     # security scan to populate incidents (collusion ring)
-    from app.api_misc import run_security_scan  # reuse scan logic
     import app.services as services_module
+    from app.api_misc import run_security_scan  # reuse scan logic
     services_module._services = svc  # ensure scan uses this DB
     scan = run_security_scan(auth=None, db=db)
     out["scan"] = {"incidents": len(scan["incidents_created"])}

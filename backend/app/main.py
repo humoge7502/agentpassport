@@ -12,11 +12,15 @@ from fastapi.responses import JSONResponse
 from pythonjsonlogger import json as jsonlogger
 
 from app.api_agents import router as agents_router
-from app.api_deps import correlation_id as corr_id_dep
-from app.api_misc import (
-    audit_router, policy_router, router as misc_router, security_router,
-)
 from app.api_mcp import router as mcp_router
+from app.api_misc import (
+    audit_router,
+    policy_router,
+    security_router,
+)
+from app.api_misc import (
+    router as misc_router,
+)
 from app.api_trust import router as trust_router
 from app.config import get_settings
 from app.services import get_services
@@ -44,18 +48,19 @@ async def lifespan(app: FastAPI):
     services = get_services()
     # register platform key row so its signatures resolve
     from sqlalchemy import select
+
     from app.models import SigningKey
-    kid, _priv = services.keys._platform()  # noqa: SLF001 — boot-time wiring
+    kid, _priv = services.keys._platform()
     with services.db.session() as db:
         exists = db.execute(
             select(SigningKey).where(SigningKey.key_id == kid)
         ).scalars().first()
         if exists is None:
-            from app.domain.crypto import KeyPair
             pub = services.keys.store.get(kid)
             # derive public from private
-            from nacl.signing import SigningKey as _SK
             import base64
+
+            from nacl.signing import SigningKey as _SK
             sk = _SK(base64.b64decode(pub))
             pub_b64 = base64.b64encode(bytes(sk.verify_key)).decode()
             db.add(SigningKey(key_id=kid, scope="platform",

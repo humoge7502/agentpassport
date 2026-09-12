@@ -1,5 +1,22 @@
 [
   {
+    "scenario": "honest_agents",
+    "metrics": {
+      "honest_allowed": true,
+      "newbie_not_allowed": true
+    },
+    "notes": "honest \u2192 ALLOW; 1-event newbie \u2192 DENY"
+  },
+  {
+    "scenario": "reputation_inflation",
+    "metrics": {
+      "flood_confidence": 0.309,
+      "quality_confidence": 0.641,
+      "flood_confidence_below_quality": true
+    },
+    "notes": "300 self-reported events must not out-certain 30 quality events"
+  },
+  {
     "scenario": "sybil_endorsement_boost",
     "metrics": {
       "edges_damped": 10,
@@ -8,5 +25,43 @@
       "ring_propagation_discounted": true
     },
     "notes": ""
+  },
+  {
+    "scenario": "model_change_trust_drop",
+    "metrics": {
+      "before": "ALLOW",
+      "after": "REVERIFY",
+      "trust_gated_after_change": true
+    },
+    "notes": ""
+  },
+  {
+    "scenario": "confidence_calibration",
+    "metrics": {
+      "confidence_small": 0.241,
+      "confidence_mid": 0.598,
+      "confidence_big": 0.813,
+      "monotonic_in_evidence": true,
+      "bounded": true
+    },
+    "notes": ""
+  },
+  {
+    "scenario": "contextual_decay",
+    "metrics": {
+      "stale_confidence": 0.0,
+      "fresh_confidence": 0.528,
+      "stale_below_fresh": true
+    },
+    "notes": ""
+  },
+  {
+    "scenario": "decision_latency",
+    "metrics": {
+      "mean_ms": 8.33,
+      "p95_ms": 13.43,
+      "max_ms": 14.43
+    },
+    "notes": "target: p95 < 50 ms on warm SQLite (heuristic gate)"
   }
 ]

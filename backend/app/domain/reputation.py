@@ -15,9 +15,8 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
-from app.domain import trust_config as tc
 from app.domain.trust_config import DIMENSIONS, TrustConfig
 
 UNKNOWN = "UNKNOWN"
@@ -25,7 +24,7 @@ UNKNOWN = "UNKNOWN"
 
 def _as_aware(dt: datetime) -> datetime:
     if dt.tzinfo is None:
-        return dt.replace(tzinfo=timezone.utc)
+        return dt.replace(tzinfo=UTC)
     return dt
 
 
@@ -153,7 +152,7 @@ def compute_reputation(
     now: datetime | None = None,
 ) -> ReputationVector:
     """Full capability-conditioned reputation vector R(agent, capability, time)."""
-    now = _as_aware(now or datetime.now(timezone.utc))
+    now = _as_aware(now or datetime.now(UTC))
     vec = ReputationVector(agent_id=agent_id, capability=capability, computed_at=now)
     for dim in cfg["dimensions"]:
         vec.dimensions[dim] = dimension_score(cfg, evidence, dim, now)
@@ -171,7 +170,7 @@ def compute_all_capabilities(
 
     Evidence not tagged with a declared capability contributes to `_global`.
     """
-    now = _as_aware(now or datetime.now(timezone.utc))
+    now = _as_aware(now or datetime.now(UTC))
     buckets: dict[str, list[dict]] = {cap: [] for cap in capabilities}
     buckets["_global"] = []
     for ev in evidence:
@@ -200,7 +199,13 @@ def score_with_metadata(vec: ReputationVector) -> dict:
 
 
 __all__ = [
-    "DIMENSIONS", "UNKNOWN", "ReputationVector", "DimensionScore",
-    "compute_reputation", "compute_all_capabilities", "dimension_score",
-    "diversity_discount", "score_with_metadata",
+    "DIMENSIONS",
+    "UNKNOWN",
+    "DimensionScore",
+    "ReputationVector",
+    "compute_all_capabilities",
+    "compute_reputation",
+    "dimension_score",
+    "diversity_discount",
+    "score_with_metadata",
 ]

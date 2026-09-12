@@ -10,21 +10,20 @@ Run:  python -m benchmarks.agenttrustbench [scenarios...]
 from __future__ import annotations
 
 import json
-import random
 import statistics
 import sys
 import tempfile
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from app.domain.policy import Decision, TrustRequest  # noqa: E402
-from app.services import build_services  # noqa: E402
+from app.domain.policy import Decision, TrustRequest
+from app.services import build_services
 
-NOW = datetime(2026, 9, 12, tzinfo=timezone.utc)
+NOW = datetime(2026, 9, 12, tzinfo=UTC)
 
 
 @dataclass
@@ -39,11 +38,10 @@ def _services(seed: int = 42):
     _r.seed(seed)
     tmp = tempfile.mkdtemp(prefix="ap-bench-")
     svc = build_services(database_url=f"sqlite:///{tmp}/bench.db")
-    from app.services_identity import KeyService
-    from app.services_evidence import EvidenceService
     from app.services_decision import ReputationService, TrustDecisionService
     from app.services_delegation import DelegationService
-    from app.services_identity import IdentityService
+    from app.services_evidence import EvidenceService
+    from app.services_identity import IdentityService, KeyService
     svc.keys = KeyService(str(Path(tmp) / "keys"))
     svc.identity = IdentityService(svc.cfg, svc.keys)
     svc.evidence = EvidenceService(svc.cfg, svc.keys)

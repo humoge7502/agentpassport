@@ -2,15 +2,11 @@
 
 from __future__ import annotations
 
-import os
-import tempfile
 from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
 
-from app.db import Database
-from app.domain.trust_config import TrustConfig
 from app.services import Services, build_services
 
 
@@ -27,14 +23,14 @@ def services(tmp_path: Path) -> Services:
 
 @pytest.fixture()
 def client(services: Services) -> TestClient:
-    from app.main import create_app
     import app.services as services_module
+    from app.main import create_app
 
-    services_module._services = services  # noqa: SLF001 — test isolation
+    services_module._services = services
     app = create_app()
     with TestClient(app) as c:
         yield c
-    services_module._services = None  # noqa: SLF001
+    services_module._services = None
 
 
 @pytest.fixture()

@@ -7,17 +7,28 @@ Evidence and audit tables are append-only — enforced by triggers (db.py).
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy import (
-    JSON, Boolean, DateTime, Float, ForeignKey, Index, Integer,
-    String, Text, UniqueConstraint, create_engine, event,
+    JSON,
+    Boolean,
+    Float,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+    create_engine,
+    event,
 )
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.types import DateTime as _DateTime
+from sqlalchemy.types import TypeDecorator as _TypeDecorator
 
 
 def utcnow() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def new_id() -> str:
@@ -28,27 +39,24 @@ class Base(DeclarativeBase):
     pass
 
 
-from sqlalchemy import types as _satypes
-
-
-class UTCDateTime(_satypes.TypeDecorator):
+class UTCDateTime(_TypeDecorator):
     """TimeZone-aware datetime that survives SQLite (which drops tzinfo).
 
     Canonical signing includes ISO timestamps, so what goes in must come out
     byte-identical after a round-trip through the DB.
     """
 
-    impl = _satypes.DateTime
+    impl = _DateTime
     cache_ok = True
 
     def process_bind_param(self, value, dialect):
         if value is not None and value.tzinfo is None:
-            value = value.replace(tzinfo=timezone.utc)
+            value = value.replace(tzinfo=UTC)
         return value
 
     def process_result_value(self, value, dialect):
         if value is not None and value.tzinfo is None:
-            value = value.replace(tzinfo=timezone.utc)
+            value = value.replace(tzinfo=UTC)
         return value
 
 
@@ -60,7 +68,7 @@ class Organization(Base):
     did: Mapped[str | None] = mapped_column(String(300), nullable=True)
     created_at: Mapped[datetime] = mapped_column(UTCDateTime(), default=utcnow)
 
-    agents: Mapped[list["Agent"]] = relationship(back_populates="organization")
+    agents: Mapped[list[Agent]] = relationship(back_populates="organization")
 
 
 class Agent(Base):
@@ -79,9 +87,9 @@ class Agent(Base):
     updated_at: Mapped[datetime] = mapped_column(UTCDateTime(), default=utcnow, onupdate=utcnow)
 
     organization: Mapped[Organization] = relationship(back_populates="agents")
-    keys: Mapped[list["SigningKey"]] = relationship(back_populates="agent")
-    versions: Mapped[list["AgentVersion"]] = relationship(back_populates="agent")
-    epochs: Mapped[list["TrustEpoch"]] = relationship(
+    keys: Mapped[list[SigningKey]] = relationship(back_populates="agent")
+    versions: Mapped[list[AgentVersion]] = relationship(back_populates="agent")
+    epochs: Mapped[list[TrustEpoch]] = relationship(
         back_populates="agent", foreign_keys="TrustEpoch.agent_id")
 
 
@@ -100,7 +108,6 @@ class SigningKey(Base):
 
     agent: Mapped[Agent | None] = relationship(back_populates="keys")
 
-    __tablename__ = "signing_keys"
     __table_args__ = (
         Index("ix_signing_keys_agent_status", "agent_id", "status"),
     )
@@ -228,9 +235,11 @@ class Delegation(Base):
     task_class: Mapped[str | None] = mapped_column(String(120), nullable=True)
     transaction_value: Mapped[float | None] = mapped_column(Float, nullable=True)
     risk_class: Mapped[str] = mapped_column(String(20), default="medium")
-    decision: Mapped[str] = mapped_column(String(30))   # ALLOW|DENY|HUMAN_APPROVAL|REVERIFY|UNKNOWN
+    # ALLOW|DENY|HUMAN_APPROVAL|REVERIFY|UNKNOWN
+    decision: Mapped[str] = mapped_column(String(30))
     decision_detail: Mapped[dict] = mapped_column(JSON, default=dict)
-    status: Mapped[str] = mapped_column(String(30), default="proposed")  # proposed|approved|executed|failed|rejected|pending_approval
+    # proposed|approved|executed|failed|rejected|pending_approval
+    status: Mapped[str] = mapped_column(String(30), default="proposed")
     proposed_by: Mapped[str] = mapped_column(String(120), default="platform")
     created_at: Mapped[datetime] = mapped_column(UTCDateTime(), default=utcnow)
     decided_at: Mapped[datetime | None] = mapped_column(UTCDateTime(), nullable=True)
@@ -255,7 +264,8 @@ class SecurityIncident(Base):
 
     incident_id: Mapped[str] = mapped_column(String(64), primary_key=True)
     agent_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
-    kind: Mapped[str] = mapped_column(String(60))   # spoofing|sybil|collusion|forged_evidence|replay|tamper|laundering|key_compromise
+    # spoofing|sybil|collusion|forged_evidence|replay|tamper|laundering|key_compromise
+    kind: Mapped[str] = mapped_column(String(60))
     severity: Mapped[str] = mapped_column(String(20), default="medium")
     detail: Mapped[dict] = mapped_column(JSON, default=dict)
     status: Mapped[str] = mapped_column(String(30), default="open")  # open|mitigated|dismissed
@@ -302,7 +312,7 @@ def make_engine(database_url: str, echo: bool = False):
     engine = create_engine(database_url, echo=echo, future=True)
     if database_url.startswith("sqlite"):
         @event.listens_for(engine, "connect")
-        def _set_sqlite_pragma(dbapi_conn, _):  # noqa: ANN001
+        def _set_sqlite_pragma(dbapi_conn, _):
             cur = dbapi_conn.cursor()
             cur.execute("PRAGMA foreign_keys=ON")
             cur.execute("PRAGMA journal_mode=WAL")

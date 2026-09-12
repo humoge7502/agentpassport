@@ -9,7 +9,7 @@ trust engine.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import Enum
 from typing import Any
 
@@ -41,7 +41,7 @@ class TrustDecision:
     score: float | None = None
     confidence: float | None = None
     context: dict[str, Any] = field(default_factory=dict)
-    evaluated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    evaluated_at: datetime = field(default_factory=lambda: datetime.now(UTC))
     policy_id: str | None = None
     epoch_id: int | None = None
     decision_id: str | None = None
@@ -86,7 +86,7 @@ class PolicyRule:
     risk_classes: list[str] | None = None
     requires_epoch_flag: str | None = None   # e.g. "reverify"
 
-    def matches(self, req: "TrustRequest", rep: dict[str, Any]) -> bool:
+    def matches(self, req: TrustRequest, rep: dict[str, Any]) -> bool:
         if self.capability is not None and req.capability != self.capability:
             return False
         if (
@@ -94,12 +94,11 @@ class PolicyRule:
             and not req.capability.startswith(self.capability_prefix)
         ):
             return False
-        if self.min_transaction_value is not None:
-            if (req.transaction_value or 0.0) < self.min_transaction_value:
-                return False
-        if self.max_transaction_value is not None:
-            if (req.transaction_value or 0.0) > self.max_transaction_value:
-                return False
+        value = req.transaction_value or 0.0
+        if self.min_transaction_value is not None and value < self.min_transaction_value:
+            return False
+        if self.max_transaction_value is not None and value > self.max_transaction_value:
+            return False
         if self.risk_classes and req.risk_class not in self.risk_classes:
             return False
         if self.min_score is not None:
@@ -118,9 +117,7 @@ class PolicyRule:
             sec = rep.get("security_score")
             if sec is None or sec >= self.max_security_score:
                 return False
-        if self.requires_epoch_flag and not rep.get("epoch_flags", {}).get(self.requires_epoch_flag):
-            return False
-        return True
+        return not (self.requires_epoch_flag and not rep.get("epoch_flags", {}).get(self.requires_epoch_flag))
 
     def to_dict(self) -> dict:
         return {

@@ -18,6 +18,7 @@ _scheduler: BackgroundScheduler | None = None
 
 def _snapshot_job(services) -> None:
     from sqlalchemy import select
+
     from app.models import Agent
     try:
         with services.db.session() as db:
@@ -26,14 +27,15 @@ def _snapshot_job(services) -> None:
                 services.reputation.snapshot(db, agent.agent_id)
             db.commit()
         logger.info("jobs.reputation_snapshots", extra={"agents": len(agents)})
-    except Exception:  # noqa: BLE001 — jobs must never crash the process
+    except Exception:
         logger.exception("jobs.reputation_snapshots.failed")
 
 
 def _security_scan_job(services) -> None:
     from sqlalchemy import select
-    from app.models import Agent, TrustRelationship
+
     from app.domain.trust_graph import cluster_security_flags, find_reciprocal_cycles
+    from app.models import Agent, TrustRelationship
     try:
         with services.db.session() as db:
             edges = db.execute(select(TrustRelationship)).scalars().all()
@@ -44,7 +46,7 @@ def _security_scan_job(services) -> None:
                  "strength": e.strength, "confidence": e.confidence}
                 for e in edges
             ]
-            flags = cluster_security_flags(
+            cluster_security_flags(
                 services.cfg, edge_dicts,
                 agent_owners={a.agent_id: a.owner_org_id for a in agents},
                 agent_created={a.agent_id: a.created_at for a in agents},
@@ -55,7 +57,7 @@ def _security_scan_job(services) -> None:
                     detail={"type": "reciprocal_endorsement", "pair": list(pair)},
                 )
             db.commit()
-    except Exception:  # noqa: BLE001
+    except Exception:
         logger.exception("jobs.security_scan.failed")
 
 

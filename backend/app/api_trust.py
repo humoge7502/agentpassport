@@ -88,7 +88,7 @@ def trust_graph(
     agent_id: str | None = None, depth_limit: int = Query(2, le=4),
     auth: OptionalAuth = Depends(), db: Session = Depends(get_db),
 ):
-    svc = get_services()
+    get_services()
     edges_q = select(TrustRelationship)
     if agent_id:
         edges_q = edges_q.where(
@@ -174,10 +174,15 @@ def list_evidence(
     x_api_key: str | None = Header(default=None),
     auth: OptionalAuth = Depends(), db: Session = Depends(get_db),
 ):
-    """Visibility-enforced evidence read (ADR-012). `private` needs admin key."""
+    """Visibility-enforced evidence read (ADR-012).
+
+    Without the admin key (which stands in for org/platform identity in this
+    single-operator deployment), readers see `public` rows only.
+    """
     svc = get_services()
-    if visibility == "private" and x_api_key != get_settings().admin_api_key:
-        visibility = "org"
+    is_admin = x_api_key == get_settings().admin_api_key
+    if not is_admin:
+        visibility = "public"
     events = svc.evidence.list_for_agent(
         db, agent_id, event_type=event_type, capability=capability,
         visibility_limit=visibility, limit=limit,

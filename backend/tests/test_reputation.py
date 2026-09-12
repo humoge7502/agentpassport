@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
-from app.domain.reputation import compute_reputation, dimension_score, diversity_discount
+from app.domain.reputation import compute_reputation, diversity_discount
 from app.domain.trust_config import TrustConfig
 
-NOW = datetime(2026, 9, 12, tzinfo=timezone.utc)
+NOW = datetime(2026, 9, 12, tzinfo=UTC)
 
 
 def ev(event_type, *, days_ago=0, tier="platform_verified", issuer="auditor-1",

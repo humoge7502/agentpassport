@@ -9,12 +9,12 @@ CFG = TrustConfig()
 
 
 def base_snapshot(**kw):
-    d = dict(
-        model_id="gpt-x-1", model_family="gpt-x",
-        owner_org_id="org-a",
-        capabilities={"translation"}, tools={"t1", "t2"},
-        permissions={"read"},
-    )
+    d = {
+        "model_id": "gpt-x-1", "model_family": "gpt-x",
+        "owner_org_id": "org-a",
+        "capabilities": {"translation"}, "tools": {"t1", "t2"},
+        "permissions": {"read"},
+    }
     d.update(kw)
     return EpochSnapshot(**d)
 

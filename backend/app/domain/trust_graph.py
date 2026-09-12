@@ -8,7 +8,7 @@ discounted; confidence never exceeds the weakest traversed edge.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from app.domain.trust_config import TrustConfig
 
@@ -42,7 +42,7 @@ def damp_edge_weights(cfg: TrustConfig, edges: list[dict], now: datetime | None 
     - young issuers damped
     - edges in reciprocal 2-cycles damped
     """
-    now = now or datetime.now(timezone.utc)
+    now = now or datetime.now(UTC)
     out: list[dict] = [dict(e) for e in edges]
 
     by_pair: dict[tuple[str, str], list[dict]] = {}
@@ -123,7 +123,7 @@ def cluster_security_flags(
     agent_created: dict[str, datetime],
     now: datetime | None = None,
 ) -> GraphSecurityFlags:
-    now = now or datetime.now(timezone.utc)
+    now = now or datetime.now(UTC)
     owners: dict[str, list[str]] = {}
     for agent, owner in agent_owners.items():
         owners.setdefault(owner, []).append(agent)
@@ -134,7 +134,7 @@ def cluster_security_flags(
     ]
     young = {
         a for a, c in agent_created.items()
-        if (now - (c if c.tzinfo else c.replace(tzinfo=timezone.utc))).days
+        if (now - (c if c.tzinfo else c.replace(tzinfo=UTC))).days
         < float(cfg["young_issuer_days"])
     }
     return GraphSecurityFlags(

@@ -7,7 +7,7 @@ Corrections are new events with `corrective_of`; history is never rewritten.
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
@@ -116,7 +116,7 @@ class EvidenceService:
             quality_tier=quality_tier or "platform_verified",
             visibility=visibility, metadata_json=metadata or {},
             corrective_of=corrective_of, prev_event_hash=prev,
-            created_at=created_at or datetime.now(timezone.utc),
+            created_at=created_at or datetime.now(UTC),
         )
         body = evidence_body(ev)
         ev.payload_hash = crypto.canonical_hash(body)
@@ -126,7 +126,7 @@ class EvidenceService:
             if not external_signature:
                 raise EvidenceError("external submission requires a signature")
             # reject far-future timestamps (clock-skew abuse)
-            if ev.created_at > datetime.now(timezone.utc) + MAX_CLOCK_SKEW:
+            if ev.created_at > datetime.now(UTC) + MAX_CLOCK_SKEW:
                 raise EvidenceError("event timestamp too far in the future")
             if not crypto.verify_payload(external_public_key, body, external_signature):
                 raise EvidenceError("signature verification failed")
@@ -153,8 +153,9 @@ class EvidenceService:
         for key_id in {ev.signing_key_id for ev in events} - set(keys):
             priv = self.keys.private_for(key_id) if self.keys else None
             if priv:
-                from nacl.signing import SigningKey as _SK
                 import base64 as _b64
+
+                from nacl.signing import SigningKey as _SK
                 keys[key_id] = _b64.b64encode(
                     bytes(_SK(_b64.b64decode(priv)).verify_key)).decode()
         prev_hash: str | None = None

@@ -1,0 +1,68 @@
+[
+  {
+    "attack": "Identity spoofing: fake agent claims trusted agent's identity",
+    "expected": "BLOCK",
+    "status": "BLOCKED/DETECTED",
+    "detail": "passport documents are keyed by server-issued agent_id; forged submissions fail signature verification"
+  },
+  {
+    "attack": "Replay: resubmit identical evidence event",
+    "expected": "REJECT",
+    "status": "BLOCKED/DETECTED",
+    "detail": "rejected: replay detected: nonce already used"
+  },
+  {
+    "attack": "Forged evidence: counterparty signature invalid",
+    "expected": "REJECT",
+    "status": "BLOCKED/DETECTED",
+    "detail": "rejected: signature verification failed"
+  },
+  {
+    "attack": "Tampered event: DB-level UPDATE of historical evidence",
+    "expected": "DETECT",
+    "status": "BLOCKED/DETECTED",
+    "detail": "append-only trigger blocked UPDATE at the database layer"
+  },
+  {
+    "attack": "Sybil farm: 1 actor \u2192 8 mutually-endorsing agents",
+    "expected": "LIMITED REPUTATION INFLUENCE",
+    "status": "BLOCKED/DETECTED",
+    "detail": "{\"sybil_farm_attested_weight\": 0.0, \"honest_agent_attested_weight\": 0.0, \"same_owner_cap_applied\": true, \"young_issuer_damp_applied\": true, \"reciprocal_damp_applied\": true}"
+  },
+  {
+    "attack": "Collusion: agents endorse each other in a cycle",
+    "expected": "DETECTED/REDUCED",
+    "status": "BLOCKED/DETECTED",
+    "detail": "4 reciprocal cycle(s); incident 91fa827016144f479f84908d8959d419 recorded"
+  },
+  {
+    "attack": "Reputation laundering: bad agent re-registers fresh",
+    "expected": "RISK FLAGGED",
+    "status": "BLOCKED/DETECTED",
+    "detail": "lineage risk = high (['4 incident(s) in lineage', 'same owner resuming same capability set']); no auto-blacklist \u2014 re-verification policy applies"
+  },
+  {
+    "attack": "Model replacement: trusted agent swaps underlying model",
+    "expected": "TRUST RECALCULATED",
+    "status": "BLOCKED/DETECTED",
+    "detail": "decision HUMAN_APPROVAL \u2192 REVERIFY; continuity factor 0.537; reverify=True"
+  },
+  {
+    "attack": "Capability escalation: low-risk agent requests financial capability",
+    "expected": "RE-EVALUATION REQUIRED",
+    "status": "BLOCKED/DETECTED",
+    "detail": "escalation forces reverify=True; new-capability decision=REVERIFY"
+  },
+  {
+    "attack": "Owner transfer: reputation follows to a new owner",
+    "expected": "CONFIGURABLE INHERITANCE",
+    "status": "BLOCKED/DETECTED",
+    "detail": "inherited with factor 0.472 (cap 0.75), reverify=True"
+  },
+  {
+    "attack": "Key compromise: revoke compromised key",
+    "expected": "REVOCATION PATH",
+    "status": "BLOCKED/DETECTED",
+    "detail": "key agent-b5886d1302\u2026 revoked with reason + audit event; historical chain remains verifiable (1 events)"
+  }
+]

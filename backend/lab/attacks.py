@@ -11,16 +11,15 @@ from __future__ import annotations
 import json
 import sys
 import tempfile
-import time
 import traceback
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from app.domain import crypto  # noqa: E402
-from app.services import build_services  # noqa: E402
-from app.services_evidence import EvidenceError  # noqa: E402
+from app.domain import crypto
+from app.services import build_services
+from app.services_evidence import EvidenceError
 
 
 class Attack:
@@ -41,11 +40,10 @@ def _fresh_services():
     # isolate key storage
     from app.services_identity import KeyService
     svc.keys = KeyService(str(Path(tmp) / "keys"))
-    from app.services_evidence import EvidenceService
     from app.services_decision import ReputationService, TrustDecisionService
     from app.services_delegation import DelegationService
+    from app.services_evidence import EvidenceService
     from app.services_identity import IdentityService
-    from app.config import get_settings
     svc.identity = IdentityService(svc.cfg, svc.keys)
     svc.evidence = EvidenceService(svc.cfg, svc.keys)
     svc.reputation = ReputationService(svc.cfg, svc.evidence)
@@ -60,7 +58,7 @@ def _agent(svc, db, org="lab-org", name="Agent", **kw):
 
 
 def _feed(svc, db, agent_id, capability, n=30):
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     for i in range(n):
         svc.evidence.append(
             db, agent_id=agent_id, event_type="task_completed", capability=capability,
@@ -92,7 +90,7 @@ def attack_identity_spoofing(svc, db) -> Attack:
         a.record(True, f"rejected: {exc}")
     # impostor cannot present a valid passport for victim id
     doc = svc.identity.passport_document(db, victim)
-    a.record(True if doc["agent_id"] == victim.agent_id else False,
+    a.record(doc["agent_id"] == victim.agent_id,
              "passport documents are keyed by server-issued agent_id; "
              "forged submissions fail signature verification")
     return a
@@ -194,9 +192,7 @@ def sybil_attested_items(dims):
 
 
 def dampen_check(svc, farm_ids, victim_id) -> dict:
-    from sqlalchemy import select
-    from app.models import TrustRelationship
-    from app.domain.trust_graph import damp_edge_weights, cluster_security_flags
+    from app.domain.trust_graph import cluster_security_flags, damp_edge_weights
     edges = db_edges(svc)
     damped = damp_edge_weights(svc.cfg, edges)
     farm_edges = [e for e in damped if e["issuer"] in farm_ids and e["subject"] in farm_ids]
@@ -216,6 +212,7 @@ def dampen_check(svc, farm_ids, victim_id) -> dict:
 
 def db_edges(svc):
     from sqlalchemy import select
+
     from app.models import TrustRelationship
     db = svc.db.session()
     rows = db.execute(select(TrustRelationship)).scalars().all()
@@ -226,6 +223,7 @@ def db_edges(svc):
 
 def list_db_agents(svc):
     from sqlalchemy import select
+
     from app.models import Agent
     db = svc.db.session()
     return list(db.execute(select(Agent)).scalars().all())
@@ -261,7 +259,7 @@ def attack_reputation_laundering(svc, db) -> Attack:
     a = Attack("Reputation laundering: bad agent re-registers fresh", "RISK FLAGGED")
     bad = _agent(svc, db, org="shady-org", name="BadActor")
     # bad history
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     for i in range(4):
         svc.evidence.append(db, agent_id=bad.agent_id, event_type="security_violation",
                             capability="credential_management", issuer_type="platform",
@@ -270,7 +268,7 @@ def attack_reputation_laundering(svc, db) -> Attack:
                             nonce=f"lab-viol-{i}",
                             created_at=now - timedelta(days=2))
     db.commit()
-    fresh = _agent(svc, db, org="shady-org", name="CleanSlate",
+    _agent(svc, db, org="shady-org", name="CleanSlate",
                    capabilities=["credential_management"])
     db.commit()
     from app.domain.trust_graph import lineage_risk
@@ -291,7 +289,7 @@ def attack_model_replacement(svc, db) -> Attack:
     before = svc.decisions.evaluate_request(
         svc.db.session().__class__.__mro__ and db, _req(agent.agent_id, "translation"))
     db.expire_all()
-    epoch2, summary = svc.identity.update_agent(db, agent, trigger="model_changed",
+    _epoch2, summary = svc.identity.update_agent(db, agent, trigger="model_changed",
                                                 model_id="other-model", model_family="other")
     db.commit()
     after = svc.decisions.evaluate_request(db, _req(agent.agent_id, "translation"))
@@ -316,7 +314,7 @@ def attack_capability_escalation(svc, db) -> Attack:
     agent = _agent(svc, db, name="Escalator", capabilities=["translation"], risk_class="low")
     _feed(svc, db, agent.agent_id, "translation", n=20)
     db.commit()
-    epoch2, summary = svc.identity.update_agent(
+    _epoch2, summary = svc.identity.update_agent(
         db, agent, trigger="capability_escalated", capabilities_add=["financial_transaction"])
     db.commit()
     reverify = summary["assessment"]["reverify"]
@@ -335,7 +333,7 @@ def attack_owner_transfer(svc, db) -> Attack:
     agent = _agent(svc, db, name="TransferBot", capabilities=["translation"])
     _feed(svc, db, agent.agent_id, "translation", n=30)
     db.commit()
-    epoch2, summary = svc.identity.update_agent(
+    _epoch2, summary = svc.identity.update_agent(
         db, agent, trigger="owner_transferred", transfer_to_org="new-org")
     db.commit()
     factor = summary["assessment"]["factor"]
@@ -352,7 +350,7 @@ def attack_key_compromise(svc, db) -> Attack:
     key = svc.keys.create_agent_key(db, agent.agent_id)
     db.commit()
     # evidence signed by compromised key BEFORE revocation stays verifiable
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     svc.evidence.append(db, agent_id=agent.agent_id, event_type="task_completed",
                         capability="translation", issuer_type="platform",
                         issuer_id="platform", signing_key_id="platform",
@@ -401,7 +399,7 @@ def run_lab(out_dir: Path | None = None) -> list[Attack]:
     # report
     out_dir = out_dir or Path(__file__).resolve().parents[1] / "lab" / "reports"
     out_dir.mkdir(parents=True, exist_ok=True)
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+    stamp = datetime.now(UTC).strftime("%Y%m%d-%H%M%S")
     data = [
         {"attack": atk.name, "expected": atk.expected, "status": atk.status,
          "detail": atk.detail}
@@ -409,7 +407,7 @@ def run_lab(out_dir: Path | None = None) -> list[Attack]:
     ]
     (out_dir / f"attack-report-{stamp}.json").write_text(json.dumps(data, indent=2))
     lines = ["# Adversarial Lab Report", "",
-             f"*Generated {datetime.now(timezone.utc).isoformat()}*",
+             f"*Generated {datetime.now(UTC).isoformat()}*",
              "", "| Attack | Expected | Result | Detail |", "|---|---|---|---|"]
     for atk in results:
         det = atk.detail.replace("|", "/").replace("\n", " ")[:220]

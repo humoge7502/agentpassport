@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from app.domain.policy import Decision, PolicyRule, Reason, TrustRequest, evaluate
+from app.domain.policy import Decision, PolicyRule, TrustRequest, evaluate
 from app.domain.trust_config import TrustConfig
 
 CFG = TrustConfig()
@@ -14,7 +14,7 @@ def rep(score=90.0, conf=0.9, sec=80.0, flags=None):
 
 
 def req(**kw):
-    d = dict(agent_id="a1", capability="translation", risk_class="low")
+    d = {"agent_id": "a1", "capability": "translation", "risk_class": "low"}
     d.update(kw)
     return TrustRequest(**d)
 

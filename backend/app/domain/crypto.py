@@ -42,7 +42,7 @@ class KeyPair:
     private_b64: str
 
     @staticmethod
-    def generate() -> "KeyPair":
+    def generate() -> KeyPair:
         sk = SigningKey.generate()
         return KeyPair(
             public_b64=base64.b64encode(bytes(sk.verify_key)).decode(),

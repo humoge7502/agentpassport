@@ -8,12 +8,12 @@ the full decision for audit.
 from __future__ import annotations
 
 from dataclasses import asdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.domain.policy import Decision, Reason, TrustRequest
+from app.domain.policy import Decision, TrustRequest
 from app.domain.trust_config import TrustConfig
 from app.models import Agent, AgentVersion, Delegation, new_id
 from app.services_decision import TrustDecisionService
@@ -43,7 +43,7 @@ class DelegationService:
         ).all()
         seen: set[str] = set()
         results: list[dict] = []
-        for agent, version in rows:
+        for agent, _version in rows:
             if agent.agent_id in seen or agent.agent_id == exclude_agent:
                 continue
             seen.add(agent.agent_id)
@@ -101,7 +101,7 @@ class DelegationService:
             risk_class=risk_class, decision=decision.decision.value,
             decision_detail=decision.to_dict(),
             status=status_map[decision.decision], proposed_by=proposed_by,
-            decided_at=datetime.now(timezone.utc),
+            decided_at=datetime.now(UTC),
         )
         db.add(deleg)
         db.flush()
@@ -120,7 +120,7 @@ class DelegationService:
             raise ValueError("outcome must be completed|failed")
 
         deleg.status = "executed" if outcome == "completed" else "failed"
-        deleg.closed_at = datetime.now(timezone.utc)
+        deleg.closed_at = datetime.now(UTC)
 
         if self.evidence is not None:
             self.evidence.append(
@@ -144,7 +144,7 @@ class DelegationService:
             raise ValueError("delegation not pending approval")
         deleg.status = "approved"
         deleg.decision_detail["human_approval"] = {
-            "approver": approver, "approved_at": datetime.now(timezone.utc).isoformat(),
+            "approver": approver, "approved_at": datetime.now(UTC).isoformat(),
         }
         db.add(AuditCompat(deleg))
         return deleg

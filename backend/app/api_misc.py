@@ -9,8 +9,13 @@ from sqlalchemy.orm import Session
 from app.api_deps import AdminAuth, OptionalAuth
 from app.db import get_db
 from app.models import (
-    Agent, AuditEvent, Delegation, PolicyRuleRecord, ReputationSnapshot,
-    SecurityIncident, new_id,
+    Agent,
+    AuditEvent,
+    Delegation,
+    PolicyRuleRecord,
+    ReputationSnapshot,
+    SecurityIncident,
+    new_id,
 )
 from app.schemas import DelegationComplete, DelegationPropose, PolicyRuleIn
 from app.services import get_services
@@ -258,7 +263,7 @@ def lineage_check(agent_id: str, auth: AdminAuth = Depends(),
             EvidenceEvent.event_type.in_(["security_violation", "policy_violation"]),
         )
     ).scalars().all()
-    my_keys = db.execute(
+    db.execute(
         select(SigningKey).where(SigningKey.agent_id == agent.agent_id)
     ).scalars().all()
     result = lineage_risk(

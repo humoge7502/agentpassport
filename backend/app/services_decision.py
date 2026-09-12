@@ -6,13 +6,23 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.domain.policy import (
-    Decision, PolicyRule, Reason, TrustDecision, TrustRequest, evaluate,
+    Decision,
+    PolicyRule,
+    Reason,
+    TrustDecision,
+    TrustRequest,
+    evaluate,
 )
 from app.domain.reputation import compute_all_capabilities
 from app.domain.trust_config import TrustConfig
 from app.models import (
-    Agent, EvidenceEvent, PolicyRuleRecord, ReputationSnapshot,
-    SecurityIncident, TrustEpoch, TrustRelationship, new_id,
+    Agent,
+    PolicyRuleRecord,
+    ReputationSnapshot,
+    SecurityIncident,
+    TrustEpoch,
+    TrustRelationship,
+    new_id,
 )
 from app.services_evidence import EvidenceService
 

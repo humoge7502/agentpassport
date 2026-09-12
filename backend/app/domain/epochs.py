@@ -25,7 +25,7 @@ class EpochSnapshot:
     permissions: set[str] | None = None
 
     @staticmethod
-    def from_config(d: dict) -> "EpochSnapshot":
+    def from_config(d: dict) -> EpochSnapshot:
         return EpochSnapshot(
             model_id=d.get("model_id"),
             model_family=d.get("model_family"),

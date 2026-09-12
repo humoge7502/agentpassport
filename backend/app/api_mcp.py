@@ -13,7 +13,7 @@ Tools:
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, Header
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -117,8 +117,8 @@ def mcp_call(body: JsonRpcRequest, auth: AdminAuth = Depends(),
                 limit=args.get("limit", 5))
             return _result(body.id, {"content": [{"type": "json", "json": results}]})
         if name == "get_passport":
+
             from app.models import Agent
-            from fastapi import HTTPException
             agent = db.get(Agent, args["agent_id"])
             if agent is None:
                 return _error(body.id, -32602, "agent not found")

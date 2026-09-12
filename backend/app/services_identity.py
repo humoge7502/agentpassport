@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -12,8 +12,15 @@ from app.domain.epochs import EpochSnapshot, assess_continuity, inherit_reputati
 from app.domain.reputation import compute_all_capabilities
 from app.domain.trust_config import TrustConfig
 from app.models import (
-    Agent, AgentVersion, AuditEvent, EvidenceEvent, Organization, SigningKey,
-    TrustEpoch, new_id, utcnow,
+    Agent,
+    AgentVersion,
+    AuditEvent,
+    EvidenceEvent,
+    Organization,
+    SigningKey,
+    TrustEpoch,
+    new_id,
+    utcnow,
 )
 
 
@@ -329,7 +336,7 @@ class IdentityService:
         doc = self.passport_document(db, agent)
         kid, sig = self.keys.platform_sign(doc)
         return {"passport": doc, "platform_key_id": kid, "signature": sig,
-                "signed_at": datetime.now(timezone.utc).isoformat()}
+                "signed_at": datetime.now(UTC).isoformat()}
 
     def lifecycle_action(self, db: Session, agent: Agent, action: str) -> Agent:
         """suspend / revoke / reactivate — status transitions are audited."""
