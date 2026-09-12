@@ -2,6 +2,16 @@
 
 Identity: **"instrument panel, not poster"** — dark-first, low-chrome, information-forward. Full rationale in [ADR-009](adr/ADR-009-design-system.md); research basis in [research/design-research-acmvit.md](../research/design-research-acmvit.md) and [research/skill-evaluation-matrix.md](../research/skill-evaluation-matrix.md).
 
+## Two layers, one token set
+
+- **Public editorial layer** (`/`, `pages/Landing.tsx`): what the product is, why it exists, proof. Oversized display type (`.display`), mono micro-labels (`.kicker`), numbered sections, asymmetric grids, single scroll-reveal pattern (`components/Reveal.tsx`), footer with live API status.
+- **Application console** (`/overview`, `/agents`, `/demo`, …): dense, focused instrument-panel chrome (sidebar, tables, charts). No editorial treatment is forced onto it.
+- Both consume the same CSS variables; switching layer changes scale and density, never the palette or voice.
+
+## Themes
+
+Dark is the designed default; **light is fully designed, not inverted** (`:root[data-theme="light"]` re-picks every token for 4.5:1+ contrast — paper surfaces, deepened ink, accent `#0F766E`, darkened status hues). Choice is persisted (`ap-theme` in localStorage), falls back to `prefers-color-scheme`, and is applied pre-paint (inline script in `index.html`) to avoid a flash. Toggle: `components/ThemeToggle.tsx` (aria-pressed, labeled).
+
 ## Tokens (frontend/src/index.css, Tailwind v4 `@theme`)
 
 ### Surfaces (tinted slate-teal, never pure black)
@@ -43,10 +53,11 @@ Signal Teal `--color-accent #2DD4BF` — interactive/brand moments **only**. It 
 
 ## Motion
 
-- Enter/content swap: 150–250 ms **ease-out** (`rise` keyframe).
+- Three durations, one easing: `--duration-fast 120ms` (hovers, presses) · `--duration-normal 180ms` (content swaps, `rise`) · `--duration-slow 320ms` (scroll reveals) — all on `--ease-out-soft`.
+- Public layer: `.reveal` (IntersectionObserver, fires once; reduced-motion users get content immediately) and the `.chain-flow` ledger strip. Nav/link language: `.link-draw` self-drawing underline.
 - Live/attention: soft pulse (loading dots, connecting state).
 - Trust-level changes and tab switches animate — **change is the message**; decoration doesn't.
-- `prefers-reduced-motion` strips all durations globally (CSS in index.css).
+- `prefers-reduced-motion` strips all durations globally (CSS in index.css); reveals bypass the observer entirely.
 
 ## Components (components/ui.tsx)
 
@@ -56,12 +67,16 @@ Charts (`components/charts.tsx`): `VectorRadar` (8-dimension reputation), `Spark
 
 ## Accessibility contract
 
-- Semantic landmarks (`aside/nav/main`, skip-link), `role=tablist` with `aria-selected`, table `caption`+`scope`.
-- Visible 2px accent `:focus-visible` outline globally.
+- Semantic landmarks (`aside/nav/main`, skip-links on both layers), `role=tablist` with `aria-selected`, table `caption`+`scope`; landing sections are `aria-labelledby` their headings.
+- Visible 2px accent `:focus-visible` outline globally; all interactive elements carry text or an aria-label (verified: 0 unlabeled controls on the landing page).
 - Charts carry `role=img` + aria-labels; confidence bars are ARIA meters.
 - Keyboard: all actions are buttons/links; explorer rows are Enter-activatable.
 - Color never encodes meaning alone (badges always carry text).
-- Motion honors `prefers-reduced-motion`.
+- Motion honors `prefers-reduced-motion` (CSS kill-switch + JS early-exit for reveals).
+
+## SEO (public layer)
+
+Title/description, Open Graph + Twitter summary cards, `SoftwareApplication` JSON-LD, `theme-color` per scheme, and `public/robots.txt` (public pages crawlable, console disallowed). A `sitemap.xml` is intentionally **not** shipped: it requires the deployed origin, and inventing a domain would be a fabricated artifact.
 
 ## Anti-patterns (rejected, with reasons)
 

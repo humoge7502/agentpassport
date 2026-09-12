@@ -3,6 +3,8 @@
 /*
  * AgentPassport design tokens (ADR-009) — "instrument panel, not poster."
  * Dark-first, tinted neutrals, semantic trust colors, tabular numerals.
+ * Two layers share one token set: the public editorial layer (large display
+ * type, numbered sections) and the application layer (dense instrument panel).
  */
 @theme {
   /* surfaces — slate-teal tinted steps, never pure black */
@@ -43,10 +45,53 @@
   /* type */
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+
+  /* motion language: three durations, one easing — used everywhere */
+  --duration-fast: 120ms;
+  --duration-normal: 180ms;
+  --duration-slow: 320ms;
+  --ease-out-soft: cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+/* ---- light theme: designed, not inverted — paper surfaces, deepened ink,
+        accent/status hues re-picked for 4.5:1 on light backgrounds -------- */
+:root[data-theme="light"] {
+  --color-bg: #f3f6f8;
+  --color-surface: #fbfcfd;
+  --color-surface-2: #eef2f5;
+  --color-surface-3: #e2e9ee;
+  --color-line: #c9d5dd;
+  --color-line-soft: #dbe3e9;
+
+  --color-ink: #14202b;
+  --color-ink-dim: #3d5265;
+  --color-ink-faint: #5d7386;
+
+  --color-accent: #0f766e;
+  --color-accent-dim: #ccf0ec;
+
+  --color-allow: #047857;
+  --color-condition: #b45309;
+  --color-deny: #dc2626;
+  --color-unknown: #64748b;
+
+  --color-trust-1: #dc2626;
+  --color-trust-2: #c2410c;
+  --color-trust-3: #b45309;
+  --color-trust-4: #0e7490;
+  --color-trust-5: #047857;
+
+  --color-ink-on-accent: #ffffff;
+}
+:root[data-theme="light"] body {
+  -webkit-font-smoothing: auto;
 }
 
 html {
   color-scheme: dark;
+}
+html[data-theme="light"] {
+  color-scheme: light;
 }
 
 body {
@@ -100,7 +145,7 @@ td,
   }
 }
 .rise {
-  animation: rise 180ms ease-out;
+  animation: rise var(--duration-normal) var(--ease-out-soft);
 }
 
 @keyframes pulse-soft {
@@ -116,7 +161,70 @@ td,
   animation: pulse-soft 1.6s ease-in-out infinite;
 }
 
-/* scrollbars: quiet, dark */
+/* scroll-triggered reveal (public layer) — one pattern, applied consistently */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--duration-slow) var(--ease-out-soft),
+    transform var(--duration-slow) var(--ease-out-soft);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* editorial display type — oversized, tight, confident */
+.display {
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+/* mono micro-label: section numbers, metadata, annotations */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+/* underline that draws itself on hover — nav/link language */
+.link-draw {
+  position: relative;
+}
+.link-draw::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--duration-normal) var(--ease-out-soft);
+}
+.link-draw:hover::after,
+.link-draw:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ledger flow: hash-chain strip animation (public hero) */
+@keyframes chain-flow {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+.chain-flow {
+  stroke-dasharray: 6 22;
+  animation: chain-flow 2.8s linear infinite;
+}
+
+/* scrollbars: quiet, theme-aware */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--color-surface-3) transparent;

@@ -1,10 +1,54 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="dark" />
     <title>AgentPassport — Trust Infrastructure for AI Agents</title>
+    <meta
+      name="description"
+      content="AgentPassport gives autonomous AI agents a persistent, portable identity, a tamper-evident evidence ledger, and capability-conditioned reputation — so every ALLOW, DENY, or REVERIFY decision can cite its reasons."
+    />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0b0f14" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f3f6f8" media="(prefers-color-scheme: light)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AgentPassport — Trust Infrastructure for AI Agents" />
+    <meta
+      property="og:description"
+      content="Evidence-backed, capability-conditioned reputation for autonomous agents. Signed identity, append-only evidence chains, and decisions that explain themselves."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="AgentPassport — Trust Infrastructure for AI Agents" />
+    <meta
+      name="twitter:description"
+      content="Evidence-backed, capability-conditioned reputation for autonomous agents. Decisions that explain themselves."
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "AgentPassport",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "description": "Continuous, portable identity and evidence-backed, capability-conditioned reputation for autonomous AI agents.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+    <script>
+      // theme before first paint — avoids a flash; mirrored in src/lib/theme.ts
+      (function () {
+        try {
+          var stored = localStorage.getItem("ap-theme");
+          var system = window.matchMedia("(prefers-color-scheme: light)").matches
+            ? "light"
+            : "dark";
+          document.documentElement.dataset.theme =
+            stored === "light" || stored === "dark" ? stored : system;
+        } catch (e) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,10 +1,13 @@
-/** App shell: sidebar navigation + topbar. Domain-driven hierarchy. */
+/** App shell: sidebar navigation + topbar. Domain-driven hierarchy.
+ *  The public editorial layer lives at `/` (Landing); the console keeps
+ *  dense instrument-panel chrome per ADR-009's two-layer split. */
 
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { useQuery } from "../lib/useQuery";
+import { ThemeToggle } from "./ThemeToggle";
 
 const NAV = [
-  { to: "/", label: "Overview", key: "M4 13h6V4H4v9Zm8 7h6v-9h-6v9ZM4 20h6v-4H4v4Zm8-11h6V4h-6v5Z" },
+  { to: "/overview", label: "Overview", key: "M4 13h6V4H4v9Zm8 7h6v-9h-6v9ZM4 20h6v-4H4v4Zm8-11h6V4h-6v5Z" },
   { to: "/agents", label: "Agent Explorer", key: "M5 3h14v4H5V3Zm0 7h14v4H5v-4Zm0 7h14v4H5v-4Z" },
   { to: "/graph", label: "Trust Graph", key: "M6 6a2 2 0 1 1-.001 4.001A2 2 0 0 1 6 6Zm12 8a2 2 0 1 1-.001 4.001A2 2 0 0 1 18 14ZM6 14l6-4m0 8 6-4" },
   { to: "/delegations", label: "Delegation Center", key: "M4 6h10M4 12h16M4 18h12" },
@@ -33,20 +36,26 @@ export function Layout() {
         aria-label="Primary"
       >
         <div className="flex items-center gap-2.5 px-4 py-4">
-          <div
-            className="flex h-8 w-8 items-center justify-center rounded-(--radius-sm) border border-(--color-accent-dim) bg-(--color-accent-dim)/30"
-            aria-hidden
+          <Link
+            to="/"
+            className="flex items-center gap-2.5 rounded-(--radius-sm)"
+            aria-label="AgentPassport — back to home"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2">
-              <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4Z" />
-            </svg>
-          </div>
-          <div>
-            <p className="text-[13px] font-semibold tracking-tight">AgentPassport</p>
-            <p className="text-[10px] tracking-wide text-(--color-ink-faint) uppercase">
-              trust infrastructure
-            </p>
-          </div>
+            <span
+              className="flex h-8 w-8 items-center justify-center rounded-(--radius-sm) border border-(--color-accent-dim) bg-(--color-accent-dim)/30"
+              aria-hidden
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2">
+                <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4Z" />
+              </svg>
+            </span>
+            <span>
+              <span className="block text-[13px] font-semibold tracking-tight">AgentPassport</span>
+              <span className="block text-[10px] tracking-wide text-(--color-ink-faint) uppercase">
+                trust infrastructure
+              </span>
+            </span>
+          </Link>
         </div>
         <nav className="mt-1 flex-1 px-2" aria-label="Sections">
           {NAV.map((item) => (
@@ -81,20 +90,23 @@ export function Layout() {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex items-center justify-between border-b border-(--color-line-soft) bg-(--color-surface) px-5 py-3 max-md:px-3">
-          <p className="text-xs text-(--color-ink-faint)">
+        <header className="flex items-center justify-between gap-3 border-b border-(--color-line-soft) bg-(--color-surface) px-5 py-3 max-md:px-3">
+          <p className="min-w-0 text-xs text-(--color-ink-faint)">
             demo environment · synthetic data ·{" "}
             <span className="mono">v1.0.0</span>
           </p>
-          <nav className="flex gap-3 md:hidden" aria-label="Mobile">
-            {NAV.map((item) => (
-              <NavLink key={item.to} to={item.to} end={item.to === "/"} className="text-(--color-ink-dim)">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden>
-                  <path d={item.key} strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </NavLink>
-            ))}
-          </nav>
+          <div className="flex shrink-0 items-center gap-2.5">
+            <nav className="flex gap-3 md:hidden" aria-label="Mobile">
+              {NAV.map((item) => (
+                <NavLink key={item.to} to={item.to} end={item.to === "/overview"} className="text-(--color-ink-dim)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden>
+                    <path d={item.key} strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </NavLink>
+              ))}
+            </nav>
+            <ThemeToggle />
+          </div>
         </header>
         <main id="main" className="min-w-0 flex-1 px-5 py-5 max-md:px-3">
           <Outlet />

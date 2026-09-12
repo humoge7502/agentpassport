@@ -1,0 +1,11 @@
+# AgentPassport — public pages are crawlable; the application console is not.
+User-agent: *
+Allow: /
+Disallow: /overview
+Disallow: /agents
+Disallow: /graph
+Disallow: /delegations
+Disallow: /security
+Disallow: /policies
+Disallow: /audit
+Disallow: /demo

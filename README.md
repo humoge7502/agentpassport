@@ -50,7 +50,7 @@ docker compose up --build
 # API on :8000 · UI on :8080
 ```
 
-Then open **http://localhost:5173** and try the **Killer Demo** page: it walks the flagship scenario — *delegation succeeds → the delegate swaps its model → the same request is visibly gated*.
+Then open **http://localhost:5173**. The landing page tells the product story with real numbers from this build; the **console** (sidebar or “Open console”) is the instrument panel. Try the **Killer Demo** page: it walks the flagship scenario — *delegation succeeds → the delegate swaps its model → the same request is visibly gated*. Dark and light themes are both fully designed (toggle in the top bar).
 
 ## Create an agent & make a trust decision
 
